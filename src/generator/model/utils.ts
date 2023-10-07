@@ -1,3 +1,5 @@
+import { MetaData, StepType } from "../types";
+
 const getRandomIntInclusive = (min: number, max: number) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -26,4 +28,105 @@ export const optionalParam = (result: string[], wight = 0.5) => {
 
   if (condition) return result;
   return [] as string[];
+};
+
+const arraysIntersect = (arr: string[], obj: { [key: string]: string[] }) => {
+  return Object.values(obj).some((subArr) => {
+    return subArr.some((value) => arr.includes(value));
+  });
+};
+
+export const weightedRandom = (odds: { [key: string]: number }) => {
+  let sum = 0;
+  for (const key in odds) {
+    sum += odds[key];
+  }
+
+  let random = Math.floor(Math.random() * sum) + 1;
+
+  for (const key in odds) {
+    random -= odds[key];
+    if (random <= 0) return key;
+  }
+
+  return "";
+};
+
+export const weightedRandomMultiple = (
+  odds: {
+    [key: string]: number;
+  },
+  countRange: [min: number, max: number]
+): string[] => {
+  type WeightItem = {
+    value: string;
+    weight: number;
+  };
+
+  const weights: WeightItem[] = [];
+  let sum = 0;
+
+  for (const key in odds) {
+    sum += odds[key];
+    weights.push({ value: key, weight: odds[key] });
+  }
+
+  const results: string[] = [];
+  const [min, max] = countRange;
+  const count = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  const used: Record<string, boolean> = {};
+
+  for (let i = 0; i < count; i++) {
+    let randomValue = "";
+
+    do {
+      let random = Math.floor(Math.random() * sum) + 1;
+
+      for (const weight of weights) {
+        random -= weight.weight;
+        if (random <= 0) {
+          randomValue = weight.value;
+          break;
+        }
+      }
+    } while (used[randomValue]);
+
+    used[randomValue] = true;
+    results.push(randomValue);
+  }
+
+  return results;
+};
+
+export const defaultStepValidator = <T extends StepType>(
+  data: T,
+  meta: MetaData
+) => {
+  let arr = [] as string[];
+  const checkTarget = Boolean(Object.entries(data.targetTags).length);
+
+  const metaKeys = Object.keys(data.targetTags);
+  const metaArray = metaKeys.reduce(
+    (a, c) => a.concat(meta[c]),
+    [] as string[]
+  );
+
+  if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
+    return [];
+  }
+
+  if (data.isRange) {
+    arr = Array.isArray(data.values)
+      ? getRandomParams(data.values, data.range || [1, 1])
+      : weightedRandomMultiple(data.values, data.range || [1, 1]);
+  } else {
+    arr.push(
+      Array.isArray(data.values)
+        ? getOneParam(data.values)
+        : weightedRandom(data.values)
+    );
+  }
+  if (data.isOptional) return optionalParam(arr, data.optionalChance);
+  return arr;
 };

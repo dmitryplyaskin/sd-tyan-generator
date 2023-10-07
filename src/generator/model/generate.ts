@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { GenerationSettings, PipelineSteps } from "../types";
-import { simpleStep } from "./steps/simpe_step";
-import { concatText, getOneParam } from "./utils";
+import { GenerationSettings, MetaData, PipelineSteps } from "../types";
+import { concatText, defaultStepValidator } from "./utils";
 
 export const promptGenerator = (params: {
   data: PipelineSteps;
@@ -11,18 +10,21 @@ export const promptGenerator = (params: {
   let finalPrompt = "";
 
   for (let i = 0; i < (Number(settings.count) || 1); i++) {
-    const meta = {} as { [key: string]: any };
+    const meta = {} as MetaData;
     let prompt = [] as string[];
     for (let j = 0; j < data.length; j++) {
       const item = data[j];
 
       if (item.type === "SimpleStep") {
-        prompt = prompt.concat(simpleStep(item));
+        prompt = prompt.concat(defaultStepValidator(item, meta));
+      }
+      if (item.type === "BranchStep") {
+        meta[item.id] = defaultStepValidator(item, meta);
       }
     }
+
     finalPrompt += concatText(prompt) + "\n";
   }
 
-  console.log(finalPrompt);
   return finalPrompt;
 };
