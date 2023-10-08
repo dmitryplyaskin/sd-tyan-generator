@@ -5,22 +5,32 @@ import {
   PipelineSteps,
   SimpleStepInterface,
   BranchStepInterface,
+  GroupBranchStepInterface,
   TagObject,
+  StepType,
 } from "../types";
 import { promptGenerator } from "./generate";
 
 export const $generatorState = createStore<PipelineSteps>(DEFAULT_DATA);
 export const changeSimpleType = createEvent<SimpleStepInterface>();
 export const changeBranchType = createEvent<BranchStepInterface>();
+export const changeGroupBranchType = createEvent<GroupBranchStepInterface>();
 export const setGeneratorState = createEvent<PipelineSteps>();
 
+const setNewState = (state: PipelineSteps, data: StepType): PipelineSteps => {
+  return state.map((x) => {
+    if (x.id !== data.id) {
+      if (x.type === "GroupBranchStep") {
+        return { ...x, render: setNewState(x.render, data) };
+      }
+      return x;
+    }
+    return { ...x, ...data };
+  });
+};
+
 $generatorState
-  .on(changeSimpleType, (state, data) => {
-    return state.map((x) => {
-      if (x.id !== data.id) return x;
-      return { ...x, ...data };
-    });
-  })
+  .on([changeSimpleType, changeBranchType, changeGroupBranchType], setNewState)
   .on(setGeneratorState, (_, data) => data);
 
 export const $tagList = $generatorState.map((x) =>

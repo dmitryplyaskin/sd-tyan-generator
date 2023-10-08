@@ -13,7 +13,7 @@ export const promptGenerator = (params: {
     const meta = {} as MetaData;
     let prompt = [] as string[];
     prompt = generate(data, prompt, meta);
-    console.log(prompt, meta);
+
     finalPrompt += concatText(prompt) + "\n";
   }
 

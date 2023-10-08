@@ -20,12 +20,12 @@ import {
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {
-  BranchGroupStepInterface,
+  GroupBranchStepInterface,
   TagObject,
   ValuesFormatType,
   ValuesType,
 } from "../types";
-import { changeBranchType } from "../model/state";
+import { changeGroupBranchType } from "../model/state";
 import { UiSlider } from "../../components/ui/slider";
 import { UiRangeSlider } from "../../components/ui/range_slider";
 import { UiCheckBoxGroup } from "../../components/ui/checkbox_group";
@@ -43,7 +43,7 @@ type GroupBranchStepType = {
 };
 
 export const GroupBranchStep: React.FC<{
-  data: BranchGroupStepInterface;
+  data: GroupBranchStepInterface;
   render: React.ReactElement;
 }> = ({ data, render }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -60,7 +60,7 @@ export const GroupBranchStep: React.FC<{
     },
   });
   const onSubmit: SubmitHandler<GroupBranchStepType> = (values) => {
-    changeBranchType({
+    changeGroupBranchType({
       ...data,
       ...values,
       values: {

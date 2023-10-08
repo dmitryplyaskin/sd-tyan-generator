@@ -32,7 +32,7 @@ export interface BranchStepInterface extends MainStepInterface {
   type: "BranchStep";
   values: ValuesType;
 }
-export interface BranchGroupStepInterface extends MainStepInterface {
+export interface GroupBranchStepInterface extends MainStepInterface {
   type: "GroupBranchStep";
   values: ValuesType;
   render: PipelineSteps;
@@ -41,7 +41,7 @@ export interface BranchGroupStepInterface extends MainStepInterface {
 export type StepType =
   | SimpleStepInterface
   | BranchStepInterface
-  | BranchGroupStepInterface;
+  | GroupBranchStepInterface;
 
 export type PipelineSteps = StepType[];
 
