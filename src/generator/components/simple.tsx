@@ -30,7 +30,6 @@ import { UiSlider } from "../../components/ui/slider";
 import { UiRangeSlider } from "../../components/ui/range_slider";
 import { UiCheckBoxGroup } from "../../components/ui/checkbox_group";
 import { inputFormatTextAreaFormat, outputFormatTextAreaFormat } from "./utils";
-import { useDnd } from "../hooks/useDnd";
 
 type SimpleStepInputs = {
   name: string;
@@ -45,9 +44,7 @@ type SimpleStepInputs = {
 
 export const SimpleStep: React.FC<{
   data: SimpleStepInterface;
-  index: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-}> = ({ data, index, moveCard }) => {
+}> = ({ data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit, control } = useForm<SimpleStepInputs>({
     defaultValues: {
@@ -74,18 +71,9 @@ export const SimpleStep: React.FC<{
   };
   const btnRef = React.useRef<any>();
 
-  const { ref, opacity, handlerId } = useDnd({ data, index, moveCard });
-
   return (
     <>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        p="3"
-        opacity={opacity}
-        ref={ref}
-        data-handler-id={handlerId}
-      >
+      <Box borderWidth="1px" borderRadius="lg" p="3">
         <Stack
           spacing="4"
           display={"flex"}
