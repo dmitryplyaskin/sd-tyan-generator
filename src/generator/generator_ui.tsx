@@ -1,6 +1,6 @@
-import { Box, Card, CardBody, Heading, Stack } from "@chakra-ui/react";
+import { Card, CardBody, Heading, Stack } from "@chakra-ui/react";
 import { PipelineSteps, StepType } from "./types";
-import React, { useCallback } from "react";
+import React from "react";
 import { useStore } from "effector-react";
 import { $generatorState, setGeneratorState } from "./model/state";
 import { SimpleStep } from "./components/simple";
@@ -11,8 +11,10 @@ import {
   Droppable,
   Draggable,
 } from "react-beautiful-dnd";
+import { GroupBranchStep } from "./components/group_branch";
 
 const reorder = (list: PipelineSteps, startIndex: number, endIndex: number) => {
+  console.log(list, startIndex, endIndex);
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -87,6 +89,41 @@ const CheckStepType: React.FC<{
       return <SimpleStep data={data} />;
     case "BranchStep":
       return <BranchStep data={data} />;
+    case "GroupBranchStep":
+      return (
+        <GroupBranchStep
+          data={data}
+          render={
+            <Droppable droppableId="items">
+              {(provided) => (
+                <Stack
+                  spacing="4"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {data.render.map((data, index) => (
+                    <Draggable
+                      key={data.id}
+                      draggableId={data.id}
+                      index={index}
+                    >
+                      {(providedItem) => (
+                        <div
+                          {...providedItem.draggableProps}
+                          {...providedItem.dragHandleProps}
+                          ref={providedItem.innerRef}
+                        >
+                          <CheckStepType data={data} key={data.id} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                </Stack>
+              )}
+            </Droppable>
+          }
+        />
+      );
 
     default:
       return null;

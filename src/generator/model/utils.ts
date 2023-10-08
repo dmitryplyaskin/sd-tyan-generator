@@ -99,10 +99,7 @@ export const weightedRandomMultiple = (
   return results;
 };
 
-export const defaultStepValidator = <T extends StepType>(
-  data: T,
-  meta: MetaData
-) => {
+export const getStepValues = <T extends StepType>(data: T, meta: MetaData) => {
   let arr = [] as string[];
   const checkTarget = Boolean(Object.entries(data.targetTags).length);
 
@@ -130,4 +127,22 @@ export const defaultStepValidator = <T extends StepType>(
   }
   if (data.isOptional) return optionalParam(arr, data.optionalChance);
   return arr;
+};
+
+export const metaValidator = <T extends StepType>(
+  data: T,
+  meta: MetaData,
+  fn: () => string[]
+) => {
+  const checkTarget = Boolean(Object.entries(data.targetTags).length);
+  const metaKeys = Object.keys(data.targetTags);
+  const metaArray = metaKeys.reduce(
+    (a, c) => a.concat(meta[c]),
+    [] as string[]
+  );
+  console.log(metaArray, data.targetTags);
+  if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
+    return [];
+  }
+  return fn();
 };

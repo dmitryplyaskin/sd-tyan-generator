@@ -15,7 +15,7 @@ export const UiCheckBoxGroup: React.FC<UiCheckBoxGroupProps> = ({
   ignore = [],
 }) => {
   const checkboxList = useStore($tagList);
-  console.log(value);
+
   return (
     <Box p="4" borderWidth="1px" borderRadius="lg">
       <Stack spacing={4}>

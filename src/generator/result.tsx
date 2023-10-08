@@ -33,7 +33,7 @@ export const Result = () => {
               <Button
                 variant="solid"
                 colorScheme="blue"
-                onClick={() => generate({ count: 10 })}
+                onClick={() => generate({ count })}
               >
                 Сгенерировать
               </Button>

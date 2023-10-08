@@ -29,7 +29,10 @@ export const $tagList = $generatorState.map((x) =>
     .reduce(
       (a, c) => ({
         ...a,
-        [c.id]: Array.isArray(c.values) ? c.values : Object.keys(c.values),
+        [c.id]:
+          c.values.type === "default"
+            ? c.values.data
+            : Object.keys(c.values.data),
       }),
       {} as TagObject
     )
