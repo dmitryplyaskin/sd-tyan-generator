@@ -4,11 +4,11 @@ import { Generator } from "./generator/generator_ui";
 
 function App() {
   return (
-    <Container maxW="full" display={"flex"}>
+    <Container maxW="full" display="flex">
       <Box flex={"1"} p="2">
         Меню
       </Box>
-      <Box flex={"8"} p="2">
+      <Box flex={"8"} p="2" h="100vh">
         <Generator />
       </Box>
       <Box flex={"3"} p="2">
