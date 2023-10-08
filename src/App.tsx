@@ -1,6 +1,6 @@
 import { Box, Container } from "@chakra-ui/react";
 import { Result } from "./generator/result";
-import { Generator } from "./generator/generator_ui";
+import { Generator } from "./generator/generator-ui";
 
 function App() {
   return (

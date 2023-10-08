@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from "effector";
-import { DEFAULT_DATA } from "../deafult_data";
+import { DEFAULT_DATA } from "../deafult-data";
 import {
   GenerationSettings,
   PipelineSteps,
@@ -12,6 +12,7 @@ import {
 import { promptGenerator } from "./generate";
 
 export const $generatorState = createStore<PipelineSteps>(DEFAULT_DATA);
+export const uploadGenerator = createEvent<PipelineSteps>();
 export const changeSimpleType = createEvent<SimpleStepInterface>();
 export const changeBranchType = createEvent<BranchStepInterface>();
 export const changeGroupBranchType = createEvent<GroupBranchStepInterface>();
@@ -31,7 +32,8 @@ const setNewState = (state: PipelineSteps, data: StepType): PipelineSteps => {
 
 $generatorState
   .on([changeSimpleType, changeBranchType, changeGroupBranchType], setNewState)
-  .on(setGeneratorState, (_, data) => data);
+  .on(setGeneratorState, (_, data) => data)
+  .on(uploadGenerator, (_, data) => data);
 
 export const $tagList = $generatorState.map((x) =>
   x

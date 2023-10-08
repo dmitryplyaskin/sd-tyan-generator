@@ -27,8 +27,8 @@ import {
 } from "../types";
 import { changeGroupBranchType } from "../model/state";
 import { UiSlider } from "../../components/ui/slider";
-import { UiRangeSlider } from "../../components/ui/range_slider";
-import { UiCheckBoxGroup } from "../../components/ui/checkbox_group";
+import { UiRangeSlider } from "../../components/ui/range-slider";
+import { UiCheckBoxGroup } from "../../components/ui/checkbox-group";
 import { inputFormatTextAreaFormat, outputFormatTextAreaFormat } from "./utils";
 
 type GroupBranchStepType = {

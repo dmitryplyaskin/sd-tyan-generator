@@ -1,8 +1,21 @@
-import { Card, CardBody, Heading, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Card,
+  CardBody,
+  Heading,
+  Stack,
+  Input,
+} from "@chakra-ui/react";
 import { PipelineSteps, StepType } from "./types";
 import React from "react";
 import { useStore } from "effector-react";
-import { $generatorState, setGeneratorState } from "./model/state";
+import {
+  $generatorState,
+  setGeneratorState,
+  uploadGenerator,
+} from "./model/state";
 import { SimpleStep } from "./components/simple";
 import { BranchStep } from "./components/branch";
 import {
@@ -11,7 +24,8 @@ import {
   Droppable,
   Draggable,
 } from "react-beautiful-dnd";
-import { GroupBranchStep } from "./components/group_branch";
+import { GroupBranchStep } from "./components/group-branch";
+import { saveDataAsJSONFile } from "../utils/save-data-as-json-file";
 
 const reorder = (list: PipelineSteps, startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -23,6 +37,19 @@ const reorder = (list: PipelineSteps, startIndex: number, endIndex: number) => {
 
 export const Generator = () => {
   const list = useStore($generatorState);
+
+  const handleFileChange = (e: any) => {
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const text = reader.result as string;
+      uploadGenerator(JSON.parse(text));
+    };
+
+    reader.readAsText(file);
+  };
 
   const onDragStart = () => {
     if (window.navigator.vibrate) {
@@ -44,7 +71,35 @@ export const Generator = () => {
     <Card h="full">
       <CardBody>
         <Stack spacing="4">
-          <Heading size="md">Генератор</Heading>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Heading size="md">Генератор</Heading>
+            <ButtonGroup spacing="2">
+              <Input
+                type="file"
+                hidden
+                id="fileUpload"
+                onChange={handleFileChange}
+              />
+              <Button
+                variant="outline"
+                colorScheme="blue"
+                onClick={() => document.getElementById("fileUpload")?.click()}
+              >
+                Загрузить
+              </Button>
+              <Button
+                variant="solid"
+                colorScheme="blue"
+                onClick={() => saveDataAsJSONFile(list)}
+              >
+                Скачать
+              </Button>
+            </ButtonGroup>
+          </Box>
           <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
             <Droppable droppableId="items">
               {(provided) => (
