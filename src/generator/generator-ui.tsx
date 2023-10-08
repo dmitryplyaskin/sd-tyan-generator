@@ -26,6 +26,7 @@ import {
 } from "react-beautiful-dnd";
 import { GroupBranchStep } from "./components/group-branch";
 import { saveDataAsJSONFile } from "../utils/save-data-as-json-file";
+import { TemplateStep } from "./components/template";
 
 const reorder = (list: PipelineSteps, startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -143,6 +144,8 @@ const CheckStepType: React.FC<{
       return <SimpleStep data={data} />;
     case "BranchStep":
       return <BranchStep data={data} />;
+    case "TemplateStep":
+      return <TemplateStep data={data} />;
     case "GroupBranchStep":
       return (
         <GroupBranchStep

@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GenerationSettings, MetaData, PipelineSteps } from "../types";
-import { concatText, getStepValues, metaValidator } from "./utils";
+import {
+  concatText,
+  getStepValues,
+  getTemplateValue,
+  metaValidator,
+} from "./utils";
 
 export const promptGenerator = (params: {
   data: PipelineSteps;
@@ -26,7 +31,10 @@ export const promptGenerator = (params: {
       if (item.type === "SimpleStep") {
         prompt = prompt.concat(getStepValues(item, meta));
       }
-      if (["BranchStep", "GroupBranchStep"].includes(item.type)) {
+      if (item.type === "TemplateStep") {
+        prompt = prompt.concat(getTemplateValue(item));
+      }
+      if (item.type === "BranchStep" || item.type === "GroupBranchStep") {
         meta[item.id] = getStepValues(item, meta);
       }
 

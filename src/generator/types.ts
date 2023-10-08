@@ -37,11 +37,24 @@ export interface GroupBranchStepInterface extends MainStepInterface {
   values: ValuesType;
   render: PipelineSteps;
 }
+export interface TemplateStepInterface extends MainStepInterface {
+  type: "TemplateStep";
+  templates: ValuesType;
+  keys: {
+    [key: string]: ValuesType;
+  };
+}
+
+export type StepWithValuesType =
+  | SimpleStepInterface
+  | BranchStepInterface
+  | GroupBranchStepInterface;
 
 export type StepType =
   | SimpleStepInterface
   | BranchStepInterface
-  | GroupBranchStepInterface;
+  | GroupBranchStepInterface
+  | TemplateStepInterface;
 
 export type PipelineSteps = StepType[];
 

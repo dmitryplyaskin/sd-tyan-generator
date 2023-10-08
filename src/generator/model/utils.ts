@@ -1,4 +1,10 @@
-import { MetaData, StepType } from "../types";
+import {
+  MetaData,
+  StepType,
+  StepWithValuesType,
+  TemplateStepInterface,
+  ValuesType,
+} from "../types";
 
 const getRandomIntInclusive = (min: number, max: number) => {
   min = Math.ceil(min);
@@ -99,7 +105,10 @@ export const weightedRandomMultiple = (
   return results;
 };
 
-export const getStepValues = <T extends StepType>(data: T, meta: MetaData) => {
+export const getStepValues = <T extends StepWithValuesType>(
+  data: T,
+  meta: MetaData
+) => {
   let arr = [] as string[];
   const checkTarget = Boolean(Object.entries(data.targetTags).length);
 
@@ -128,6 +137,27 @@ export const getStepValues = <T extends StepType>(data: T, meta: MetaData) => {
   if (data.isOptional) return optionalParam(arr, data.optionalChance);
   return arr;
 };
+export const getValues = (
+  data: ValuesType,
+  range?: { isRange: boolean; value: [min: number, max: number] }
+) => {
+  let arr = [] as string[];
+
+  if (range?.isRange) {
+    arr =
+      data.type === "default"
+        ? getRandomParams(data.data, range.value || [1, 1])
+        : weightedRandomMultiple(data.data, range.value || [1, 1]);
+  } else {
+    arr.push(
+      data.type === "default"
+        ? getOneParam(data.data)
+        : weightedRandom(data.data)
+    );
+  }
+
+  return arr;
+};
 
 export const metaValidator = <T extends StepType>(
   data: T,
@@ -140,9 +170,34 @@ export const metaValidator = <T extends StepType>(
     (a, c) => a.concat(meta[c]),
     [] as string[]
   );
-  console.log(metaArray, data.targetTags);
+
   if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
     return [];
   }
   return fn();
+};
+
+export const getTemplateValue = (data: TemplateStepInterface) => {
+  const value = getValues(data.templates, {
+    isRange: data.isRange,
+    value: data.range,
+  });
+
+  const replaced = value
+    .map((str) => ({
+      originalStr: str,
+      matches: str.match(/\${(.+?)}/g),
+    }))
+    .map((x) => {
+      let str = x.originalStr;
+      for (const match of x.matches || []) {
+        const key = match.replace(/\${(.+?)}/g, "$1");
+        const value = getValues(data.keys[key])[0];
+        str = str.replace(match, value);
+      }
+
+      return str;
+    });
+
+  return replaced;
 };

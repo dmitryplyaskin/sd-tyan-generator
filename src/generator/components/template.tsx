@@ -20,7 +20,7 @@ import {
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {
-  GroupBranchStepInterface,
+  TemplateStepInterface,
   TagObject,
   ValuesFormatType,
   ValuesType,
@@ -31,7 +31,7 @@ import { UiRangeSlider } from "../../components/ui/range-slider";
 import { UiCheckBoxGroup } from "../../components/ui/checkbox-group";
 import { inputFormatTextAreaFormat, outputFormatTextAreaFormat } from "./utils";
 
-type GroupBranchStepType = {
+type TemplateStepType = {
   name: string;
   targetTags: TagObject;
   values: string;
@@ -42,32 +42,31 @@ type GroupBranchStepType = {
   range: [number, number];
 };
 
-export const GroupBranchStep: React.FC<{
-  data: GroupBranchStepInterface;
-  render: React.ReactElement;
-}> = ({ data, render }) => {
+export const TemplateStep: React.FC<{
+  data: TemplateStepInterface;
+}> = ({ data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { register, handleSubmit, control } = useForm<GroupBranchStepType>({
+  const { register, handleSubmit, control } = useForm<TemplateStepType>({
     defaultValues: {
       name: data.name,
       targetTags: data.targetTags,
-      values: inputFormatTextAreaFormat(data.values),
-      valuesType: data.values.type,
+      // values: inputFormatTextAreaFormat(data.values),
+      // valuesType: data.values.type,
       isOptional: data.isOptional,
       optionalChance: data.optionalChance ?? 0.5,
       isRange: data.isRange,
       range: data.range || [1, 2],
     },
   });
-  const onSubmit: SubmitHandler<GroupBranchStepType> = (values) => {
-    changeGroupBranchType({
-      ...data,
-      ...values,
-      values: {
-        type: values.valuesType,
-        data: outputFormatTextAreaFormat(values.values, values.valuesType),
-      } as ValuesType,
-    });
+  const onSubmit: SubmitHandler<TemplateStepType> = (values) => {
+    // changeGroupBranchType({
+    //   ...data,
+    //   ...values,
+    //   values: {
+    //     type: values.valuesType,
+    //     data: outputFormatTextAreaFormat(values.values, values.valuesType),
+    //   } as ValuesType,
+    // });
     onClose();
   };
   const btnRef = React.useRef<any>();
@@ -82,10 +81,9 @@ export const GroupBranchStep: React.FC<{
           direction={"row"}
           align="center"
         >
-          <Heading size="sm">Группа: {data.name}</Heading>
+          <Heading size="sm">{data.name}</Heading>
           <Button onClick={onOpen}>Настройки</Button>
         </Stack>
-        <Box mt="4">{render}</Box>
       </Box>
       <Drawer
         isOpen={isOpen}
