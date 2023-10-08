@@ -19,31 +19,42 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { SimpleStepInterface, TagObject } from "../types";
+import {
+  SimpleStepInterface,
+  TagObject,
+  ValuesFormatType,
+  ValuesType,
+} from "../types";
 import { changeSimpleType } from "../model/state";
 import { UiSlider } from "../../components/ui/slider";
 import { UiRangeSlider } from "../../components/ui/range_slider";
 import { UiCheckBoxGroup } from "../../components/ui/checkbox_group";
+import { inputFormatTextAreaFormat, outputFormatTextAreaFormat } from "./utils";
+import { useDnd } from "../hooks/useDnd";
 
 type SimpleStepInputs = {
   name: string;
   targetTags: TagObject;
   values: string;
+  valuesType: ValuesFormatType;
   isOptional: boolean;
   optionalChance: number;
   isRange: boolean;
   range: [number, number];
 };
 
-export const SimpleStep: React.FC<{ data: SimpleStepInterface }> = ({
-  data,
-}) => {
+export const SimpleStep: React.FC<{
+  data: SimpleStepInterface;
+  index: number;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
+}> = ({ data, index, moveCard }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { register, handleSubmit, control } = useForm<SimpleStepInputs>({
     defaultValues: {
       name: data.name,
       targetTags: data.targetTags,
-      values: data.values.join?.("\n"),
+      values: inputFormatTextAreaFormat(data.values),
+      valuesType: data.values.type,
       isOptional: data.isOptional,
       optionalChance: data.optionalChance ?? 0.5,
       isRange: data.isRange,
@@ -51,23 +62,30 @@ export const SimpleStep: React.FC<{ data: SimpleStepInterface }> = ({
     },
   });
   const onSubmit: SubmitHandler<SimpleStepInputs> = (values) => {
-    console.log(values);
     changeSimpleType({
       ...data,
-      name: values.name,
-      targetTags: values.targetTags,
-      values: values.values.split("\n"),
-      isOptional: values.isOptional,
-      optionalChance: values.optionalChance,
-      isRange: values.isRange,
-      range: values.range,
+      ...values,
+      values: {
+        type: values.valuesType,
+        data: outputFormatTextAreaFormat(values.values, values.valuesType),
+      } as ValuesType,
     });
     onClose();
   };
   const btnRef = React.useRef<any>();
+
+  const { ref, opacity, handlerId } = useDnd({ data, index, moveCard });
+
   return (
     <>
-      <Box borderWidth="1px" borderRadius="lg" p="3">
+      <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        p="3"
+        opacity={opacity}
+        ref={ref}
+        data-handler-id={handlerId}
+      >
         <Stack
           spacing="4"
           display={"flex"}
@@ -150,7 +168,11 @@ export const SimpleStep: React.FC<{ data: SimpleStepInterface }> = ({
                   render={({ field }) => (
                     <UiRangeSlider
                       min={1}
-                      max={data.values.length}
+                      max={
+                        data.values.type === "default"
+                          ? data.values.data.length
+                          : Object.keys(data.values.data).length
+                      }
                       step={1}
                       value={field.value}
                       onChange={field.onChange}

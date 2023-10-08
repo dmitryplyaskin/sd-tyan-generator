@@ -9,7 +9,19 @@ export interface MainStepInterface {
   range?: [number, number];
 }
 
-export type ValuesType = string[] | { [key: string]: number };
+export type CoreValuesType = string[] | { [key: string]: number };
+export type ValuesFormatType = "default" | "weight";
+
+export type DefaultValueType = {
+  data: string[];
+  type: "default";
+};
+export type WeightValueType = {
+  data: { [key: string]: number };
+  type: "weight";
+};
+
+export type ValuesType = DefaultValueType | WeightValueType;
 
 export interface SimpleStepInterface extends MainStepInterface {
   type: "SimpleStep";

@@ -117,14 +117,15 @@ export const defaultStepValidator = <T extends StepType>(
   }
 
   if (data.isRange) {
-    arr = Array.isArray(data.values)
-      ? getRandomParams(data.values, data.range || [1, 1])
-      : weightedRandomMultiple(data.values, data.range || [1, 1]);
+    arr =
+      data.values.type === "default"
+        ? getRandomParams(data.values.data, data.range || [1, 1])
+        : weightedRandomMultiple(data.values.data, data.range || [1, 1]);
   } else {
     arr.push(
-      Array.isArray(data.values)
-        ? getOneParam(data.values)
-        : weightedRandom(data.values)
+      data.values.type === "default"
+        ? getOneParam(data.values.data)
+        : weightedRandom(data.values.data)
     );
   }
   if (data.isOptional) return optionalParam(arr, data.optionalChance);

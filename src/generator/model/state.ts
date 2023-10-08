@@ -9,16 +9,19 @@ import {
 } from "../types";
 import { promptGenerator } from "./generate";
 
-export const $generatorState = createStore(DEFAULT_DATA);
+export const $generatorState = createStore<PipelineSteps>(DEFAULT_DATA);
 export const changeSimpleType = createEvent<SimpleStepInterface>();
 export const changeBranchType = createEvent<BranchStepInterface>();
+export const setGeneratorState = createEvent<PipelineSteps>();
 
-$generatorState.on(changeSimpleType, (state, data) => {
-  return state.map((x) => {
-    if (x.id !== data.id) return x;
-    return { ...x, ...data };
-  });
-});
+$generatorState
+  .on(changeSimpleType, (state, data) => {
+    return state.map((x) => {
+      if (x.id !== data.id) return x;
+      return { ...x, ...data };
+    });
+  })
+  .on(setGeneratorState, (_, data) => data);
 
 export const $tagList = $generatorState.map((x) =>
   x
