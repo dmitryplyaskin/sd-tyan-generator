@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from "effector";
-import { DEFAULT_DATA } from "../deafult-data";
+
 import {
   GenerationSettings,
   PipelineSteps,
@@ -10,8 +10,9 @@ import {
   StepType,
 } from "../types";
 import { promptGenerator } from "./generate";
+import { presets } from "./presets-import";
 
-export const $generatorState = createStore<PipelineSteps>(DEFAULT_DATA);
+export const $generatorState = createStore<PipelineSteps>(presets[0]);
 export const uploadGenerator = createEvent<PipelineSteps>();
 export const changeSimpleType = createEvent<SimpleStepInterface>();
 export const changeBranchType = createEvent<BranchStepInterface>();
