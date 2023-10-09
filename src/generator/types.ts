@@ -1,3 +1,8 @@
+export type RangeType = {
+  isRange: boolean;
+  value: [min: number, max: number];
+};
+
 export interface MainStepInterface {
   type: string;
   name: string;
@@ -5,8 +10,7 @@ export interface MainStepInterface {
   id: string;
   isOptional?: boolean;
   optionalChance?: number;
-  isRange?: boolean;
-  range?: [number, number];
+  range?: RangeType;
 }
 
 export type CoreValuesType = string[] | { [key: string]: number };

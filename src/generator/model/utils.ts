@@ -122,11 +122,11 @@ export const getStepValues = <T extends StepWithValuesType>(
     return [];
   }
 
-  if (data.isRange) {
+  if (data.range?.isRange) {
     arr =
       data.values.type === "default"
-        ? getRandomParams(data.values.data, data.range || [1, 1])
-        : weightedRandomMultiple(data.values.data, data.range || [1, 1]);
+        ? getRandomParams(data.values.data, data.range.value)
+        : weightedRandomMultiple(data.values.data, data.range.value);
   } else {
     arr.push(
       data.values.type === "default"
@@ -142,6 +142,8 @@ export const getValues = (
   range?: { isRange: boolean; value: [min: number, max: number] }
 ) => {
   let arr = [] as string[];
+
+  // console.log(data);
 
   if (range?.isRange) {
     arr =
@@ -178,10 +180,7 @@ export const metaValidator = <T extends StepType>(
 };
 
 export const getTemplateValue = (data: TemplateStepInterface) => {
-  const value = getValues(data.templates, {
-    isRange: data.isRange,
-    value: data.range,
-  });
+  const value = getValues(data.templates, data.range);
 
   const replaced = value
     .map((str) => ({

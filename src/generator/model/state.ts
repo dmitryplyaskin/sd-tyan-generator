@@ -37,7 +37,9 @@ $generatorState
 
 export const $tagList = $generatorState.map((x) =>
   x
-    .filter((x) => x.type === "BranchStep")
+    .filter((x): x is BranchStepInterface | GroupBranchStepInterface =>
+      ["BranchStep", "GroupBranchStep"].includes(x.type)
+    )
     .reduce(
       (a, c) => ({
         ...a,
