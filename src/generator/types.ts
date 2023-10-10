@@ -68,3 +68,10 @@ export type GenerationSettings = {
 
 export type MetaData = { [key: string]: string[] };
 export type TagObject = { [key: string]: string[] };
+
+export type PresetTemplateFileType = {
+  name: string;
+  id: string;
+  version: string;
+  template: PipelineSteps;
+};

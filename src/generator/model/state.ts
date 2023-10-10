@@ -8,11 +8,24 @@ import {
   GroupBranchStepInterface,
   TagObject,
   StepType,
+  PresetTemplateFileType,
 } from "../types";
 import { promptGenerator } from "./generate";
-import { presets } from "./presets-import";
+import { templates } from "./templates-import";
 
-export const $generatorState = createStore<PipelineSteps>(presets[0]);
+export const $templates = createStore<PresetTemplateFileType[]>([]);
+export const initTemplates = createEvent<PresetTemplateFileType[]>();
+export const loadTemplate = createEvent<PresetTemplateFileType>();
+
+export const selectTemplate = createEvent<string>();
+
+$templates
+  .on(initTemplates, (_, data) => data)
+  .on(loadTemplate, (state, template) => [...state, template]);
+
+initTemplates(templates || []);
+
+export const $generatorState = createStore<PipelineSteps>([]);
 export const uploadGenerator = createEvent<PipelineSteps>();
 export const changeSimpleType = createEvent<SimpleStepInterface>();
 export const changeBranchType = createEvent<BranchStepInterface>();

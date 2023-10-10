@@ -14,7 +14,6 @@ export default defineConfig({
       handleHotUpdate: {
         handler() {
           generateImports();
-          return [];
         },
       },
     },

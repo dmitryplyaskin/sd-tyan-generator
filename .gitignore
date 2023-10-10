@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
  
-presets/*
-src/generator/model/presets-import.ts
-!presets/default-preset.json
+templates/*
+src/generator/model/templates-import.ts
+!templates/default-template.json

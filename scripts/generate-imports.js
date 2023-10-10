@@ -3,6 +3,7 @@ import path from "path";
 
 function toCamelCase(filename) {
   const name = filename
+    .replaceAll(" ", "-")
     .split("-")
     .map((part, index) => {
       if (index > 0) {
@@ -17,26 +18,26 @@ function toCamelCase(filename) {
 
 export const generateImports = async () => {
   // Читаем папку src
-  const files = await fs.readdir(path.resolve("./presets"), console.log);
-  let imports = `import { PipelineSteps } from "../types"\n`;
+  const files = await fs.readdir(path.resolve("./templates"), console.log);
+  let imports = `import { PresetTemplateFileType } from "../types"\n`;
   let filesArr = [];
 
   // Генерируем импорты
   files.forEach((file) => {
     if (file.endsWith(".json")) {
       const name = toCamelCase(file.replace(/\.json$/, ""));
-      imports += `import ${name} from '../../../presets/${file}';\n`;
+      imports += `import ${name} from '../../../templates/${file}';\n`;
       filesArr.push(name);
     }
   });
 
-  imports += `\nexport const presets = [ ${filesArr.join(
+  imports += `\nexport const templates: PresetTemplateFileType[] = [${filesArr.join(
     ","
-  )} ] as PipelineSteps[]`;
+  )}]`;
 
   // Записываем в imports.js
   fs.writeFile(
-    path.resolve("./src/generator/model/presets-import.ts"),
+    path.resolve("./src/generator/model/templates-import.ts"),
     imports
   );
 };
