@@ -17,13 +17,15 @@ export const $templates = createStore<PresetTemplateFileType[]>([]);
 export const initTemplates = createEvent<PresetTemplateFileType[]>();
 export const loadTemplate = createEvent<PresetTemplateFileType>();
 
-export const selectTemplate = createEvent<string>();
-
 $templates
   .on(initTemplates, (_, data) => data)
   .on(loadTemplate, (state, template) => [...state, template]);
 
 initTemplates(templates || []);
+
+export const $activeTemplate = createStore({} as PresetTemplateFileType);
+export const selectTemplate = createEvent<PresetTemplateFileType>();
+$activeTemplate.on(selectTemplate, (_, template) => template);
 
 export const $generatorState = createStore<PipelineSteps>([]);
 export const uploadGenerator = createEvent<PipelineSteps>();
@@ -47,7 +49,8 @@ const setNewState = (state: PipelineSteps, data: StepType): PipelineSteps => {
 $generatorState
   .on([changeSimpleType, changeBranchType, changeGroupBranchType], setNewState)
   .on(setGeneratorState, (_, data) => data)
-  .on(uploadGenerator, (_, data) => data);
+  .on(uploadGenerator, (_, data) => data)
+  .on($activeTemplate, (_, data) => data.template);
 
 export const $tagList = $generatorState.map((x) =>
   x
