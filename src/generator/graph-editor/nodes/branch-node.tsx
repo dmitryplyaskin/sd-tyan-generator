@@ -56,7 +56,7 @@ export const BranchNode: React.FC<{ data: BranchStepInterface }> = ({
     <>
       <Handle type="target" position={Position.Top} />
       <Card border="1px" ref={ref}>
-        <CardBody>
+        <CardBody pb={0}>
           <Stack
             spacing={4}
             display={"flex"}
@@ -66,34 +66,36 @@ export const BranchNode: React.FC<{ data: BranchStepInterface }> = ({
             <Heading size="sm">{data?.name}</Heading>
             <IconButton aria-label="settings" icon={<SettingsIcon />} />
           </Stack>
+          <Stack
+            spacing={2}
+            display={"flex"}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            transform={"translateY(7px)"}
+          >
+            {handles.map((x) => {
+              return (
+                <Box
+                  style={{
+                    pointerEvents: "none",
+                  }}
+                  p={2}
+                >
+                  {x.title}
+                  <Handle
+                    type="source"
+                    position={Position.Bottom}
+                    id={x.id}
+                    style={{
+                      position: "relative",
+                    }}
+                  ></Handle>
+                </Box>
+              );
+            })}
+          </Stack>
         </CardBody>
       </Card>
-
-      {handles.map((x) => {
-        return (
-          <Handle
-            type="source"
-            position={Position.Bottom}
-            id={x.id}
-            style={{ left: x.position.x, top: x.position.y }}
-          >
-            <Box
-              style={{
-                pointerEvents: "none",
-                position: "absolute",
-                top: -35,
-                transform: "translateX(-50%)",
-              }}
-              border="1px"
-              borderRadius="md"
-              p={1}
-              pb={4}
-            >
-              {x.title}
-            </Box>
-          </Handle>
-        );
-      })}
     </>
   );
 };

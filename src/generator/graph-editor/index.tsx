@@ -69,14 +69,7 @@ const initialNodes = [
       targetTags: {},
       values: {
         type: "default",
-        data: [
-          "female",
-          "male",
-          "alien",
-          "animal",
-          "unknown",
-          "something strange",
-        ],
+        data: ["female", "male", "alien"],
       },
     },
   },
