@@ -1,43 +1,46 @@
-import { Card, CardBody, Heading, Stack } from "@chakra-ui/react";
-import React from "react";
+import { Card, CardBody, Heading, Stack } from '@chakra-ui/react'
+import React from 'react'
 
 export const SideBar = () => {
-  const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData("application/reactflow", nodeType);
-    event.dataTransfer.effectAllowed = "move";
-  };
+	const onDragStart = (event: any, nodeType: any) => {
+		event.dataTransfer.setData('application/reactflow', nodeType)
+		event.dataTransfer.effectAllowed = 'move'
+	}
 
-  return (
-    <Stack spacing={4}>
-      <Heading size="md">
-        You can drag these nodes to the pane on the right.
-      </Heading>
-      <Node
-        title={"Simple Node"}
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, "SimpleNode")}
-        draggable
-      />
-      <Node
-        title={"Branch Node"}
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, "BranchNode")}
-        draggable
-      />
-      <Node
-        title={"Template Node"}
-        className="dndnode input"
-        onDragStart={(event) => onDragStart(event, "TemplateNode")}
-        draggable
-      />
-    </Stack>
-  );
-};
+	return (
+		<Card>
+			<CardBody>
+				<Stack spacing={2}>
+					<Heading size="sm">Выберите ноду и перетащите ее</Heading>
+					<Node
+						title={'Simple Node'}
+						onDragStart={event => onDragStart(event, 'SimpleNode')}
+						draggable
+					/>
+					<Node
+						title={'Branch Node'}
+						onDragStart={event => onDragStart(event, 'BranchNode')}
+						draggable
+					/>
+					<Node
+						title={'Template Node'}
+						onDragStart={event => onDragStart(event, 'TemplateNode')}
+						draggable
+					/>
+				</Stack>
+			</CardBody>
+		</Card>
+	)
+}
 
-const Node = ({ title, ...props }) => (
-  <Card border="1px" {...props}>
-    <CardBody>
-      <Heading size="sm">{title}</Heading>
-    </CardBody>
-  </Card>
-);
+const Node: React.FC<{
+	title: string
+	draggable?: boolean
+	onDragStart: (event: any, nodeType: any) => void
+}> = ({ title, ...props }) => (
+	<Card border="1px" {...props}>
+		<CardBody p={3}>
+			<Heading size="sm">{title}</Heading>
+		</CardBody>
+	</Card>
+)
