@@ -1,11 +1,4 @@
-import ReactFlow, {
-	Controls,
-	Background,
-	applyNodeChanges,
-	applyEdgeChanges,
-	addEdge,
-	ReactFlowProvider,
-} from 'reactflow'
+import ReactFlow, { Controls, Background, ReactFlowProvider } from 'reactflow'
 import { useState, useCallback, useMemo, useRef } from 'react'
 import 'reactflow/dist/style.css'
 import { SimpleNode } from './nodes/simple-node'
@@ -13,8 +6,16 @@ import { StartNode } from './nodes/start'
 import { BranchNode } from './nodes/branch-node'
 import { TemplateNode } from './nodes/template-node'
 import { SideBar } from './sidebar'
-import { Box, Card, CardBody, Stack } from '@chakra-ui/react'
+import { Card, CardBody, Stack } from '@chakra-ui/react'
 import { Menu } from '../menu'
+import { useStore } from 'effector-react'
+import {
+	$nodeData,
+	onConnectEdge,
+	onEdgesChange,
+	onNodeAdd,
+	onNodesChange,
+} from './model'
 
 const initialNodes = [
 	{
@@ -136,22 +137,7 @@ let id = 0
 const getId = () => `dndnode_${id++}`
 
 export const GraphEditor = () => {
-	const [nodes, setNodes] = useState(initialNodes)
-	const [edges, setEdges] = useState(initialEdges)
-
-	const onNodesChange = useCallback(
-		changes => setNodes(nds => applyNodeChanges(changes, nds)),
-		[]
-	)
-	const onEdgesChange = useCallback(
-		changes => setEdges(eds => applyEdgeChanges(changes, eds)),
-		[]
-	)
-
-	const onConnect = useCallback(
-		params => setEdges(eds => addEdge(params, eds)),
-		[]
-	)
+	const { nodes, edges } = useStore($nodeData)
 
 	const nodeTypes = useMemo(
 		() => ({
@@ -194,7 +180,7 @@ export const GraphEditor = () => {
 				data: { name: `${type}`, values: { type: 'default', data: [''] } },
 			}
 
-			setNodes(nds => nds.concat(newNode))
+			onNodeAdd(newNode)
 		},
 		[reactFlowInstance]
 	)
@@ -214,7 +200,7 @@ export const GraphEditor = () => {
 							onNodesChange={onNodesChange}
 							edges={edges}
 							onEdgesChange={onEdgesChange}
-							onConnect={onConnect}
+							onConnect={onConnectEdge}
 							nodeTypes={nodeTypes}
 							onInit={setReactFlowInstance}
 							onDrop={onDrop}
