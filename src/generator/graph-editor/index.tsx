@@ -4,12 +4,16 @@ import ReactFlow, {
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
+  ReactFlowProvider,
 } from "reactflow";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import "reactflow/dist/style.css";
 import { SimpleNode } from "./nodes/simple-node";
 import { StartNode } from "./nodes/start";
 import { BranchNode } from "./nodes/branch-node";
+import { TemplateNode } from "./nodes/template-node";
+import { SideBar } from "./sidebar";
+import { Box } from "@chakra-ui/react";
 
 const initialNodes = [
   {
@@ -43,7 +47,7 @@ const initialNodes = [
     type: "SimpleNode",
     position: { x: 0, y: 200 },
     data: {
-      name: "Some not very long text for node. Test",
+      name: "Style",
       targetTags: {},
       values: {
         type: "default",
@@ -65,7 +69,7 @@ const initialNodes = [
     type: "BranchNode",
     position: { x: 0, y: 400 },
     data: {
-      name: "Character test long name? very long name",
+      name: "Character",
       targetTags: {},
       values: {
         type: "default",
@@ -78,7 +82,7 @@ const initialNodes = [
     type: "SimpleNode",
     position: { x: 0, y: 700 },
     data: {
-      name: "Some1",
+      name: "Closes",
       targetTags: {},
       values: {
         type: "default",
@@ -91,7 +95,7 @@ const initialNodes = [
     type: "SimpleNode",
     position: { x: 100, y: 700 },
     data: {
-      name: "Some2",
+      name: "Eyes",
       targetTags: {},
       values: {
         type: "default",
@@ -104,7 +108,7 @@ const initialNodes = [
     type: "SimpleNode",
     position: { x: 200, y: 700 },
     data: {
-      name: "Some3",
+      name: "Hair",
       targetTags: {},
       values: {
         type: "default",
@@ -126,6 +130,9 @@ const initialEdges = [
     target: "3",
   },
 ];
+
+let id = 0;
+const getId = () => `dndnode_${id++}`;
 
 export const GraphEditor = () => {
   const [nodes, setNodes] = useState(initialNodes);
@@ -150,23 +157,68 @@ export const GraphEditor = () => {
       StartNode: StartNode,
       SimpleNode: SimpleNode,
       BranchNode: BranchNode,
+      TemplateNode: TemplateNode,
     }),
     []
   );
 
+  const reactFlowWrapper = useRef(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      const type = event.dataTransfer.getData("application/reactflow");
+
+      // check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+
+      const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+      const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: { name: `${type}`, values: { type: "default", data: [] } },
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance]
+  );
+
   return (
     <div style={{ height: "100%" }}>
-      <ReactFlow
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
+      <ReactFlowProvider>
+        <Box sx={{ w: "100%", h: "600px" }} ref={reactFlowWrapper}>
+          <ReactFlow
+            nodes={nodes}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            onInit={setReactFlowInstance}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </Box>
+        <SideBar />
+      </ReactFlowProvider>
     </div>
   );
 };
