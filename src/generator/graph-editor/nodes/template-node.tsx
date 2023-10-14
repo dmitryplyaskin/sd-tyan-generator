@@ -1,29 +1,19 @@
-import { Card, CardBody, Heading, IconButton, Stack } from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { Card, CardBody } from '@chakra-ui/react'
 
-import { Handle, Position } from "reactflow";
-import { TemplateStepInterface } from "../../types";
+import { Handle, Position } from 'reactflow'
+import { TemplateNodeType } from '../model/types'
+import { NodeTitle } from './_components_'
 
-export const TemplateNode: React.FC<{ data: TemplateStepInterface }> = ({
-  data,
-}) => {
-  return (
-    <>
-      <Handle type="target" position={Position.Top} />
-      <Card border="1px">
-        <CardBody>
-          <Stack
-            spacing={4}
-            display={"flex"}
-            flexDirection={"row"}
-            alignItems={"center"}
-          >
-            <Heading size="sm">{data?.name}</Heading>
-            <IconButton aria-label="settings" icon={<SettingsIcon />} />
-          </Stack>
-        </CardBody>
-      </Card>
-      <Handle type="source" position={Position.Bottom} id="a" />
-    </>
-  );
-};
+export const TemplateNode: React.FC<TemplateNodeType> = node => {
+	return (
+		<>
+			<Handle type="target" position={Position.Top} />
+			<Card border="1px">
+				<CardBody>
+					<NodeTitle {...node} />
+				</CardBody>
+			</Card>
+			<Handle type="source" position={Position.Bottom} id="a" />
+		</>
+	)
+}

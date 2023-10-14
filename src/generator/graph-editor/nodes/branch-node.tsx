@@ -1,21 +1,13 @@
-import {
-	Box,
-	Card,
-	CardBody,
-	Heading,
-	IconButton,
-	Stack,
-} from '@chakra-ui/react'
-import { SettingsIcon } from '@chakra-ui/icons'
+import { Box, Card, CardBody, Stack } from '@chakra-ui/react'
 
 import { Handle, Position, useNodeId, useUpdateNodeInternals } from 'reactflow'
-import { BranchStepInterface } from '../../types'
-import { useEffect, useMemo, useRef } from 'react'
 
-export const BranchNode: React.FC<{ data: BranchStepInterface }> = ({
-	data,
-}) => {
-	console.log(data)
+import { useEffect, useMemo } from 'react'
+import { NodeTitle } from './_components_'
+import { BranchNodeType } from '../model/types'
+
+export const BranchNode: React.FC<BranchNodeType> = node => {
+	const { data } = node
 	const nodeId = useNodeId()
 
 	const updateNodeInternals = useUpdateNodeInternals()
@@ -37,16 +29,7 @@ export const BranchNode: React.FC<{ data: BranchStepInterface }> = ({
 			<Handle type="target" position={Position.Top} />
 			<Card border="1px">
 				<CardBody pb={0}>
-					<Stack
-						spacing={4}
-						display={'flex'}
-						flexDirection={'row'}
-						alignItems={'center'}
-						justifyContent={'space-between'}
-					>
-						<Heading size="sm">{data?.name}</Heading>
-						<IconButton aria-label="settings" icon={<SettingsIcon />} />
-					</Stack>
+					<NodeTitle {...node} />
 					<Stack
 						spacing={2}
 						display={'flex'}

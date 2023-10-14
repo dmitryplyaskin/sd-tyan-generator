@@ -10,10 +10,15 @@ export type BranchNodeType = Node<BranchStepInterface, 'BranchNode'>
 export type TemplateNodeType = Node<TemplateStepInterface, 'TemplateNode'>
 export type StartNodeType = Node<unknown, 'StartNode'>
 
-export type NodeType =
+export type AllNodeType =
 	| SimpleNodeType
 	| BranchNodeType
 	| TemplateNodeType
 	| StartNodeType
 
-export type NodesType = NodeType[]
+export type EditableNodeType =
+	| SimpleNodeType
+	| BranchNodeType
+	| TemplateNodeType
+
+export type NodesType = AllNodeType[]

@@ -9,7 +9,13 @@ import {
 	addEdge,
 	Connection,
 } from 'reactflow'
-import { NodeType, NodesType } from './types'
+import {
+	BranchNodeType,
+	AllNodeType,
+	NodesType,
+	SimpleNodeType,
+	TemplateNodeType,
+} from './types'
 
 export const $nodes = createStore<NodesType>([
 	{
@@ -22,7 +28,7 @@ export const $nodes = createStore<NodesType>([
 export const $edges = createStore<Edge[]>([])
 
 export const onNodesChange = createEvent<NodeChange[]>()
-export const onNodeAdd = createEvent<NodeType>()
+export const onNodeAdd = createEvent<AllNodeType>()
 
 export const onEdgesChange = createEvent<EdgeChange[]>()
 export const onConnectEdge = createEvent<Edge | Connection>()
@@ -42,5 +48,35 @@ export const $nodeData = combine({
 	nodes: $nodes,
 	edges: $edges,
 })
+
+export const changeSimpleType = createEvent<SimpleNodeType>()
+export const changeBranchType = createEvent<BranchNodeType>()
+export const changeTemplateType = createEvent<TemplateNodeType>()
+
+$nodes
+	.on(changeSimpleType, (state, data) => {
+		return state.map(x => {
+			if (x.id === data.id && x.type === 'SimpleNode') {
+				return { ...x, ...data }
+			}
+			return x
+		})
+	})
+	.on(changeBranchType, (state, data) => {
+		return state.map(x => {
+			if (x.id === data.id && x.type === 'BranchNode') {
+				return { ...x, ...data }
+			}
+			return x
+		})
+	})
+	.on(changeTemplateType, (state, data) => {
+		return state.map(x => {
+			if (x.id === data.id && x.type === 'TemplateNode') {
+				return { ...x, ...data }
+			}
+			return x
+		})
+	})
 
 $nodeData.watch(console.log)
