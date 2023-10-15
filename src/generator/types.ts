@@ -2,14 +2,15 @@ export type RangeType = {
 	isRange: boolean
 	value: [min: number, max: number]
 }
+export type OptionalType = {
+	isOptional: boolean
+	value: number
+}
 
 export interface MainStepInterface {
 	type: string
 	name: string
-	targetTags: { [key: string]: string[] }
-	id: string
-	isOptional?: boolean
-	optionalChance?: number
+	optional?: OptionalType
 	range?: RangeType
 }
 

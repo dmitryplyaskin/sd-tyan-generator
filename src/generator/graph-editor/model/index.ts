@@ -78,5 +78,3 @@ $nodes
 			return x
 		})
 	})
-
-$nodeData.watch(console.log)

@@ -14,9 +14,11 @@ import {
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { SimpleNodeForm } from './edit-node-form/simple'
+import { BranchNodeForm } from './edit-node-form/branch'
+import { TemplateNodeForm } from './edit-node-form/template'
 
 export const EditNode = () => {
-	const { isOpen, type } = useStore($editNode)
+	const { isOpen } = useStore($editNode)
 	const currentNode = useStore($currentEditNode)
 	const btnRef = React.useRef<any>()
 	const methods = useForm()
@@ -36,9 +38,17 @@ export const EditNode = () => {
 					<DrawerHeader>Настройки {currentNode?.data.name}</DrawerHeader>
 
 					<DrawerBody>
-						{currentNode.type === 'SimpleNode' && (
-							<SimpleNodeForm {...currentNode} />
-						)}
+						<Stack spacing="4">
+							{currentNode && currentNode.type === 'SimpleNode' && (
+								<SimpleNodeForm {...currentNode} />
+							)}
+							{currentNode && currentNode.type === 'BranchNode' && (
+								<BranchNodeForm {...currentNode} />
+							)}
+							{currentNode && currentNode.type === 'TemplateNode' && (
+								<TemplateNodeForm {...currentNode} />
+							)}
+						</Stack>
 					</DrawerBody>
 
 					<DrawerFooter>

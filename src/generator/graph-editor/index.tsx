@@ -17,6 +17,7 @@ import {
 	onNodesChange,
 } from './model'
 import { EditNode } from './edit-node'
+import { EditableNodeType } from './model/types'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
@@ -55,13 +56,74 @@ export const GraphEditor = () => {
 				x: event.clientX - reactFlowBounds.left,
 				y: event.clientY - reactFlowBounds.top,
 			})
-			const newNode = {
-				id: `${new Date().getTime()}`,
-				type,
-				position,
-				data: { name: `${type}`, values: { type: 'default', data: [''] } },
-			}
 
+			let newNode = {} as EditableNodeType
+			console.log(type)
+			if (type === 'SimpleNode') {
+				newNode = {
+					id: `${new Date().getTime()}`,
+					type,
+					position,
+					data: {
+						name: `${type}`,
+						type,
+						values: {
+							type: 'default',
+							data: ['value1', 'value2'],
+						},
+						optional: { isOptional: false, value: 0.5 },
+						range: { isRange: false, value: [1, 2] },
+					},
+				}
+			}
+			if (type === 'BranchNode') {
+				newNode = {
+					id: `${new Date().getTime()}`,
+					type,
+					position,
+					data: {
+						name: `${type}`,
+						type,
+						values: {
+							type: 'default',
+							data: ['branch-1', 'branch-2'],
+						},
+						optional: { isOptional: false, value: 0.5 },
+						range: { isRange: false, value: [1, 2] },
+					},
+				}
+			}
+			if (type === 'TemplateNode') {
+				newNode = {
+					id: `${new Date().getTime()}`,
+					type,
+					position,
+					data: {
+						name: `${type}`,
+						type,
+						templates: {
+							type: 'default',
+							data: ['${key1}', '${key2}'],
+						},
+						keys: {
+							['key1']: {
+								type: 'default',
+								data: ['value1', 'value2'],
+							},
+							['key2']: {
+								type: 'weight',
+								data: {
+									value1: 10,
+									value2: 30,
+								},
+							},
+						},
+						optional: { isOptional: false, value: 0.5 },
+						range: { isRange: false, value: [1, 2] },
+					},
+				}
+			}
+			console.log(newNode)
 			onNodeAdd(newNode)
 		},
 		[reactFlowInstance]

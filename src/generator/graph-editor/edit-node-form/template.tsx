@@ -6,18 +6,18 @@ import {
 	ValueInput,
 } from './_inputs_'
 import { useEffect } from 'react'
-import { SimpleNodeType } from '../model/types'
+import { TemplateNodeType } from '../model/types'
 import { inputFormatTextAreaFormat } from '../../components/utils'
 
-export const SimpleNodeForm = ({ data }: SimpleNodeType) => {
+export const TemplateNodeForm = ({ data }: TemplateNodeType) => {
 	const { reset } = useFormContext()
 
 	useEffect(() => {
 		reset({
 			...data,
-			values: {
-				type: data.values.type,
-				data: inputFormatTextAreaFormat(data.values),
+			templates: {
+				type: data.templates.type,
+				data: inputFormatTextAreaFormat(data.templates),
 			},
 		})
 	}, [])
@@ -25,7 +25,7 @@ export const SimpleNodeForm = ({ data }: SimpleNodeType) => {
 	return (
 		<>
 			<NameInput />
-			<ValueInput />
+			<ValueInput name="templates" />
 			<OptionalChanceInput />
 			<RangeInput />
 		</>

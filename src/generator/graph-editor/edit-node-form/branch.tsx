@@ -6,10 +6,10 @@ import {
 	ValueInput,
 } from './_inputs_'
 import { useEffect } from 'react'
-import { SimpleNodeType } from '../model/types'
+import { BranchNodeType } from '../model/types'
 import { inputFormatTextAreaFormat } from '../../components/utils'
 
-export const SimpleNodeForm = ({ data }: SimpleNodeType) => {
+export const BranchNodeForm = ({ data }: BranchNodeType) => {
 	const { reset } = useFormContext()
 
 	useEffect(() => {
