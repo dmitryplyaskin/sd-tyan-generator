@@ -103,7 +103,7 @@ export const GraphEditor = () => {
 						type,
 						templates: {
 							type: 'default',
-							data: ['${key1}', '${key2}'],
+							data: ['${key1} is ${key3}', '${key2}'],
 						},
 						keys: {
 							['key1']: {

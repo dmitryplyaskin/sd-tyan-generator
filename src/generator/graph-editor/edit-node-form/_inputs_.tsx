@@ -27,8 +27,9 @@ export const NameInput = () => {
 	)
 }
 
-export const ValueInput: React.FC<{ name?: string }> = ({
+export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 	name = 'values',
+	height = '400px',
 }) => {
 	const { register, control } = useFormContext()
 
@@ -53,7 +54,7 @@ export const ValueInput: React.FC<{ name?: string }> = ({
 			</FormControl>
 			<FormControl>
 				<FormLabel>Значения</FormLabel>
-				<Textarea h={'400px'} {...register(`${name}.data`)} />
+				<Textarea h={height} {...register(`${name}.data`)} />
 			</FormControl>
 		</Box>
 	)
@@ -94,7 +95,6 @@ export const RangeInput = () => {
 		type
 	)
 
-	console.log('formattedValue', formattedValue)
 	return (
 		<FormControl>
 			<FormLabel>Выбрать несколько случайных значений (от и до)</FormLabel>
@@ -121,6 +121,36 @@ export const RangeInput = () => {
 					)
 				}}
 			/>
+		</FormControl>
+	)
+}
+export const TemplateInput = () => {
+	const { register, control } = useFormContext()
+	const [type, value] = useWatch({ name: ['templates.type', 'templates.data'] })
+	const formattedValue = outputFormatTextAreaFormat(
+		typeof value !== 'string' ? '' : value,
+		type
+	)
+
+	const keys =
+		(formattedValue as string[])
+			?.map?.(x => x.match(/\${(.+?)}/g))
+			?.reduce((a, c) => [...a, ...(c || [])], [] as string[])
+			?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
+	console.log(keys)
+
+	// console.log('formattedValue', formattedValue)
+	return (
+		<FormControl>
+			<FormLabel>Переменные</FormLabel>
+			<Stack spacing={4} p={4}>
+				{keys?.map(x => (
+					<>
+						<FormLabel>Переменная: {x}</FormLabel>
+						<ValueInput name={`keys.${x}`} height="200px" />
+					</>
+				))}
+			</Stack>
 		</FormControl>
 	)
 }
