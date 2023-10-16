@@ -1,4 +1,9 @@
-import ReactFlow, { Controls, Background, ReactFlowProvider } from 'reactflow'
+import ReactFlow, {
+	Controls,
+	Background,
+	ReactFlowProvider,
+	updateEdge,
+} from 'reactflow'
 import { useState, useCallback, useMemo, useRef } from 'react'
 import 'reactflow/dist/style.css'
 import { SimpleNode } from './nodes/simple-node'
@@ -15,13 +20,18 @@ import {
 	onEdgesChange,
 	onNodeAdd,
 	onNodesChange,
+	onUpdateEdge,
+	onUpdateEdgeEnd,
 } from './model'
 import { EditNode } from './edit-node'
 import { EditableNodeType } from './model/types'
+import ContextMenu from './context-menu'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
-
+	const [menu, setMenu] = useState(null)
+	const ref = useRef(null)
+	const edgeUpdateSuccessful = useRef(true)
 	const nodeTypes = useMemo(
 		() => ({
 			StartNode: StartNode,
@@ -58,7 +68,7 @@ export const GraphEditor = () => {
 			})
 
 			let newNode = {} as EditableNodeType
-			console.log(type)
+
 			if (type === 'SimpleNode') {
 				newNode = {
 					id: `${new Date().getTime()}`,
@@ -123,11 +133,49 @@ export const GraphEditor = () => {
 					},
 				}
 			}
-			console.log(newNode)
+
 			onNodeAdd(newNode)
 		},
 		[reactFlowInstance]
 	)
+
+	const onNodeContextMenu = useCallback(
+		(event, node) => {
+			// Prevent native context menu from showing
+			event.preventDefault()
+
+			// Calculate position of the context menu. We want to make sure it
+			// doesn't get positioned off-screen.
+			const pane = ref.current.getBoundingClientRect()
+			setMenu({
+				id: node.id,
+				top: event.clientY < pane.height - 200 && event.clientY,
+				left: event.clientX < pane.width - 200 && event.clientX,
+				right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
+				bottom:
+					event.clientY >= pane.height - 200 && pane.height - event.clientY,
+			})
+		},
+		[setMenu]
+	)
+	const onPaneClick = useCallback(() => setMenu(null), [setMenu])
+
+	const onEdgeUpdateStart = useCallback(() => {
+		edgeUpdateSuccessful.current = false
+	}, [])
+
+	const onEdgeUpdate = useCallback((edge, connection) => {
+		edgeUpdateSuccessful.current = true
+		onUpdateEdge({ edge, connection })
+	}, [])
+
+	const onEdgeUpdateEnd = useCallback((_, edge) => {
+		if (!edgeUpdateSuccessful.current) {
+			onUpdateEdgeEnd(edge)
+		}
+
+		edgeUpdateSuccessful.current = true
+	}, [])
 
 	return (
 		<>
@@ -141,18 +189,24 @@ export const GraphEditor = () => {
 					<Card sx={{ h: '100%', w: '100%' }} ref={reactFlowWrapper}>
 						<CardBody>
 							<ReactFlow
+								ref={ref}
 								nodes={nodes}
 								onNodesChange={onNodesChange}
 								edges={edges}
 								onEdgesChange={onEdgesChange}
+								onEdgeUpdate={onEdgeUpdate}
+								onEdgeUpdateStart={onEdgeUpdateStart}
+								onEdgeUpdateEnd={onEdgeUpdateEnd}
 								onConnect={onConnectEdge}
 								nodeTypes={nodeTypes}
 								onInit={setReactFlowInstance}
 								onDrop={onDrop}
 								onDragOver={onDragOver}
+								onNodeContextMenu={onNodeContextMenu}
 							>
 								<Background />
 								<Controls />
+								{menu && <ContextMenu onClick={onPaneClick} {...menu} />}
 							</ReactFlow>
 						</CardBody>
 					</Card>

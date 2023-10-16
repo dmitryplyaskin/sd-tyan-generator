@@ -43,7 +43,11 @@ export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 					name={`${name}.type`}
 					control={control}
 					render={({ field }) => (
-						<RadioGroup onChange={e => field.onChange(e)} value={field.value}>
+						<RadioGroup
+							onChange={e => field.onChange(e)}
+							value={field.value}
+							defaultValue="default"
+						>
 							<Stack direction="row">
 								<Radio value="default">default</Radio>
 								<Radio value="weight">weight</Radio>
@@ -125,18 +129,19 @@ export const RangeInput = () => {
 	)
 }
 export const TemplateInput = () => {
-	const { register, control } = useFormContext()
 	const [type, value] = useWatch({ name: ['templates.type', 'templates.data'] })
 	const formattedValue = outputFormatTextAreaFormat(
 		typeof value !== 'string' ? '' : value,
 		type
 	)
 
-	const keys =
+	const keys_ =
 		(formattedValue as string[])
 			?.map?.(x => x.match(/\${(.+?)}/g))
 			?.reduce((a, c) => [...a, ...(c || [])], [] as string[])
 			?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
+
+	const keys = [...new Set(keys_)]
 	console.log(keys)
 
 	// console.log('formattedValue', formattedValue)

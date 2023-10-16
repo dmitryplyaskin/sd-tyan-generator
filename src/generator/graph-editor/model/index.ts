@@ -8,6 +8,7 @@ import {
 	applyEdgeChanges,
 	addEdge,
 	Connection,
+	updateEdge,
 } from 'reactflow'
 import {
 	BranchNodeType,
@@ -25,13 +26,20 @@ export const $nodes = createStore<NodesType>([
 		data: null,
 	},
 ])
+
 export const $edges = createStore<Edge[]>([])
+$edges.watch(console.log)
 
 export const onNodesChange = createEvent<NodeChange[]>()
 export const onNodeAdd = createEvent<AllNodeType>()
 
 export const onEdgesChange = createEvent<EdgeChange[]>()
 export const onConnectEdge = createEvent<Edge | Connection>()
+export const onUpdateEdge = createEvent<{
+	edge: Edge
+	connection: Connection
+}>()
+export const onUpdateEdgeEnd = createEvent<Edge>()
 
 $nodes
 	.on(
@@ -43,6 +51,10 @@ $nodes
 $edges
 	.on(onEdgesChange, (state, data) => applyEdgeChanges(data, state))
 	.on(onConnectEdge, (state, data) => addEdge(data, state))
+	.on(onUpdateEdge, (state, { edge, connection }) =>
+		updateEdge(edge, connection, state)
+	)
+	.on(onUpdateEdgeEnd, (state, data) => state.filter(e => e.id !== data.id))
 
 export const $nodeData = combine({
 	nodes: $nodes,
