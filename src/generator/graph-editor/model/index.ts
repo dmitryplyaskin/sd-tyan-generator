@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createStore, createEvent, combine } from 'effector'
+
 import {
 	Edge,
 	NodeChange,
@@ -17,6 +18,7 @@ import {
 	SimpleNodeType,
 	TemplateNodeType,
 } from './types'
+import { $activeTemplate } from './templates'
 
 export const $nodes = createStore<NodesType>([
 	{
@@ -89,3 +91,6 @@ $nodes
 			return x
 		})
 	})
+
+$nodes.on($activeTemplate, (_, data) => data?.nodes)
+$edges.on($activeTemplate, (_, data) => data?.edges)

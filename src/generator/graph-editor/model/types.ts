@@ -1,4 +1,4 @@
-import { Node } from 'reactflow'
+import { Edge, Node } from 'reactflow'
 import {
 	SimpleStepInterface,
 	BranchStepInterface,
@@ -22,3 +22,10 @@ export type EditableNodeType =
 	| TemplateNodeType
 
 export type NodesType = AllNodeType[]
+
+export type TemplateType = {
+	id: number
+	name: string
+	nodes: AllNodeType[]
+	edges: Edge[]
+}
