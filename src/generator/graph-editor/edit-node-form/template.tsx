@@ -11,10 +11,9 @@ import { TemplateNodeType } from '../model/types'
 import { inputFormatTextAreaFormat } from '../../components/utils'
 
 export const TemplateNodeForm = ({ data }: TemplateNodeType) => {
-	const { reset, watch } = useFormContext()
+	const { reset } = useFormContext()
 
 	useEffect(() => {
-		watch(console.log)
 		const keys = Object.entries(data.keys)
 			.map(x => ({
 				[x[0]]: {

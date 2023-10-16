@@ -17,7 +17,7 @@ export const $editNode = createStore<EditNodeType>({
 export const $currentEditNode = combine(
 	$editNode,
 	$nodes,
-	({ type }, nodes) => nodes.find(x => x.type === type) as EditableNodeType
+	({ id }, nodes) => nodes.find(x => x.id === id) as EditableNodeType
 )
 
 export const openEditNode = createEvent<EditNodeType>()

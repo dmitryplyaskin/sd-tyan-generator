@@ -24,7 +24,7 @@ export const EditNode = () => {
 	const currentNode = useStore($currentEditNode)
 	const btnRef = React.useRef<any>()
 	const methods = useForm()
-	console.log(currentNode)
+
 	const handleSubmit = v => {
 		if (v.type === 'SimpleNode') {
 			changeSimpleType({
