@@ -35,8 +35,6 @@ export const generatePrompts = (
 				x => x.sourceHandle === `${node.id}-${branch}`
 			)?.target
 			nextNode = nodes.find(x => x.id === targetEdge)
-			console.log(`${node.id}-${branch}`, targetEdge)
-			console.log(nextNode)
 		}
 		if (node.type === 'TemplateNode') {
 			prompt = prompt.concat(getTemplateValue(node.data))
