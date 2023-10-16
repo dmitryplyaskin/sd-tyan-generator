@@ -14,3 +14,4 @@ export const selectTemplate = createEvent<TemplateType>()
 $activeTemplate.on(selectTemplate, (_, template) => template)
 
 persist({ store: $templates, key: 'templates' })
+persist({ store: $activeTemplate, key: 'activeTemplate' })

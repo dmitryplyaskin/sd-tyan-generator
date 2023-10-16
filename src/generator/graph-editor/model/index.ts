@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { createStore, createEvent, combine } from 'effector'
+import { createStore, createEvent, combine, sample } from 'effector'
 
 import {
 	Edge,
@@ -19,6 +19,7 @@ import {
 	TemplateNodeType,
 } from './types'
 import { $activeTemplate } from './templates'
+import { generatePrompts } from './generatePrompts'
 
 export const $nodes = createStore<NodesType>([
 	{
@@ -94,3 +95,13 @@ $nodes
 
 $nodes.on($activeTemplate, (_, data) => data?.nodes)
 $edges.on($activeTemplate, (_, data) => data?.edges)
+
+export const $generateResult = createStore('')
+export const generate = createEvent<{ count: number }>()
+
+sample({
+	source: $nodeData,
+	clock: generate,
+	fn: generatePrompts,
+	target: $generateResult,
+})
