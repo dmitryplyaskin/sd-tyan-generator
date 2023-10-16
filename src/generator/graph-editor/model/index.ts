@@ -28,7 +28,6 @@ export const $nodes = createStore<NodesType>([
 ])
 
 export const $edges = createStore<Edge[]>([])
-$edges.watch(console.log)
 
 export const onNodesChange = createEvent<NodeChange[]>()
 export const onNodeAdd = createEvent<AllNodeType>()

@@ -45,7 +45,7 @@ export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 					render={({ field }) => (
 						<RadioGroup
 							onChange={e => field.onChange(e)}
-							value={field.value}
+							value={field.value || 'default'}
 							defaultValue="default"
 						>
 							<Stack direction="row">
@@ -142,9 +142,7 @@ export const TemplateInput = () => {
 			?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
 
 	const keys = [...new Set(keys_)]
-	console.log(keys)
 
-	// console.log('formattedValue', formattedValue)
 	return (
 		<FormControl>
 			<FormLabel>Переменные</FormLabel>

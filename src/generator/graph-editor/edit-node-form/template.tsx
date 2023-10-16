@@ -18,7 +18,7 @@ export const TemplateNodeForm = ({ data }: TemplateNodeType) => {
 		const keys = Object.entries(data.keys)
 			.map(x => ({
 				[x[0]]: {
-					type: x[1].type,
+					type: x[1].type || 'default',
 					data: inputFormatTextAreaFormat(x[1]),
 				},
 			}))
