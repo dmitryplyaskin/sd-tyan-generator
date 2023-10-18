@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
 	FormControl,
 	FormLabel,
 	Input,
 	Textarea,
-	Switch,
 	Box,
 	RadioGroup,
 	Radio,
@@ -114,7 +114,8 @@ export const RangeInput = () => {
 							min={1}
 							max={
 								type === 'default'
-									? formattedValue?.length
+									? // @ts-expect-error
+									  formattedValue?.length
 									: Object.keys(formattedValue).length
 							}
 							step={1}

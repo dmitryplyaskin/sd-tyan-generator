@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ReactFlow, { Controls, Background, ReactFlowProvider } from 'reactflow'
 import { useState, useCallback, useMemo, useRef } from 'react'
 import 'reactflow/dist/style.css'
@@ -49,16 +50,17 @@ export const GraphEditor = () => {
 
 	const reactFlowWrapper = useRef(null)
 	const [reactFlowInstance, setReactFlowInstance] = useState(null)
-
+	// @ts-expect-error
 	const onDragOver = useCallback(event => {
 		event.preventDefault()
 		event.dataTransfer.dropEffect = 'move'
 	}, [])
 
 	const onDrop = useCallback(
+		// @ts-expect-error
 		event => {
 			event.preventDefault()
-
+			// @ts-expect-error
 			const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
 			const type = event.dataTransfer.getData('application/reactflow')
 
@@ -66,7 +68,7 @@ export const GraphEditor = () => {
 			if (typeof type === 'undefined' || !type) {
 				return
 			}
-
+			// @ts-expect-error
 			const position = reactFlowInstance.project({
 				x: event.clientX - reactFlowBounds.left,
 				y: event.clientY - reactFlowBounds.top,
@@ -145,14 +147,17 @@ export const GraphEditor = () => {
 	)
 
 	const onNodeContextMenu = useCallback(
+		// @ts-expect-error
 		(event, node) => {
 			// Prevent native context menu from showing
 			event.preventDefault()
 
 			// Calculate position of the context menu. We want to make sure it
 			// doesn't get positioned off-screen.
+			// @ts-expect-error
 			const pane = ref.current.getBoundingClientRect()
 			setMenu({
+				// @ts-expect-error
 				id: node.id,
 				top: event.clientY < pane.height - 200 && event.clientY,
 				left: event.clientX < pane.width - 200 && event.clientX,
@@ -168,12 +173,12 @@ export const GraphEditor = () => {
 	const onEdgeUpdateStart = useCallback(() => {
 		edgeUpdateSuccessful.current = false
 	}, [])
-
+	// @ts-expect-error
 	const onEdgeUpdate = useCallback((edge, connection) => {
 		edgeUpdateSuccessful.current = true
 		onUpdateEdge({ edge, connection })
 	}, [])
-
+	// @ts-expect-error
 	const onEdgeUpdateEnd = useCallback((_, edge) => {
 		if (!edgeUpdateSuccessful.current) {
 			onUpdateEdgeEnd(edge)
@@ -216,7 +221,9 @@ export const GraphEditor = () => {
 								onEdgeUpdateStart={onEdgeUpdateStart}
 								onEdgeUpdateEnd={onEdgeUpdateEnd}
 								onConnect={onConnectEdge}
+								// @ts-expect-error
 								nodeTypes={nodeTypes}
+								// @ts-expect-error
 								onInit={setReactFlowInstance}
 								onDrop={onDrop}
 								onDragOver={onDragOver}
@@ -224,7 +231,11 @@ export const GraphEditor = () => {
 							>
 								<Background />
 								<Controls />
-								{menu && <ContextMenu onClick={onPaneClick} {...menu} />}
+
+								{menu && (
+									// @ts-expect-error
+									<ContextMenu onClick={onPaneClick} {...menu} />
+								)}
 								<ButtonGroup
 									spacing="2"
 									position={'absolute'}

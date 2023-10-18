@@ -27,10 +27,10 @@ export const generatePrompts = (
 		let nextNode = nodes.find(x => x.id === edge?.target)
 
 		if (node.type === 'SimpleNode') {
-			prompt = prompt.concat(getStepValues(node.data, {}))
+			prompt = prompt.concat(getStepValues(node.data))
 		}
 		if (node.type === 'BranchNode') {
-			const branch = getStepValues(node.data, {})
+			const branch = getStepValues(node.data)
 			const targetEdge = edges.find(
 				x => x.sourceHandle === `${node.id}-${branch}`
 			)?.target

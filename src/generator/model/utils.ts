@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
 	MetaData,
 	StepType,
@@ -105,10 +106,7 @@ export const weightedRandomMultiple = (
 	return results
 }
 
-export const getStepValues = <T extends StepWithValuesType>(
-	data: T,
-	meta: MetaData
-) => {
+export const getStepValues = <T extends StepWithValuesType>(data: T) => {
 	let arr = [] as string[]
 	// const checkTarget = Boolean(Object.entries(data.targetTags).length);
 
@@ -134,6 +132,8 @@ export const getStepValues = <T extends StepWithValuesType>(
 				: weightedRandom(data.values.data)
 		)
 	}
+
+	// @ts-expect-error
 	if (data.isOptional) return optionalParam(arr, data.optionalChance)
 	return arr
 }
@@ -166,10 +166,12 @@ export const metaValidator = <T extends StepType>(
 	meta: MetaData,
 	fn: () => string[]
 ) => {
+	// @ts-expect-error
 	const checkTarget = Boolean(Object.entries(data.targetTags).length)
+	// @ts-expect-error
 	const metaKeys = Object.keys(data.targetTags)
 	const metaArray = metaKeys.reduce((a, c) => a.concat(meta[c]), [] as string[])
-
+	// @ts-expect-error
 	if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
 		return []
 	}

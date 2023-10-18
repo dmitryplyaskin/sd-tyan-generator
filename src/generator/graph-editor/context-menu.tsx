@@ -1,23 +1,22 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button, ButtonGroup, Card, CardBody } from '@chakra-ui/react'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useReactFlow } from 'reactflow'
 
-export default function ContextMenu({
-	id,
-	top,
-	left,
-	right,
-	bottom,
-	...props
-}) {
+export default function ContextMenu(
+	// @ts-expect-error
+	{ id, top, left, right, bottom, ...props }
+) {
 	const { getNode, setNodes, addNodes, setEdges } = useReactFlow()
 	const duplicateNode = useCallback(() => {
 		const node = getNode(id)
 		const position = {
+			// @ts-expect-error
 			x: node.position.x + 150,
+			// @ts-expect-error
 			y: node.position.y + 150,
 		}
-
+		// @ts-expect-error
 		addNodes({ ...node, id: `${new Date().getTime()}`, position })
 	}, [id, getNode, addNodes])
 

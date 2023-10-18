@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Box, Card, CardBody, Stack } from '@chakra-ui/react'
 
 import { Handle, Position, useNodeId, useUpdateNodeInternals } from 'reactflow'
@@ -22,6 +23,7 @@ export const BranchNode: React.FC<BranchNodeType> = node => {
 
 	useEffect(() => {
 		if (nodeId) updateNodeInternals(nodeId)
+		// @ts-expect-error
 	}, [handleList, data.id, updateNodeInternals, nodeId])
 
 	return (

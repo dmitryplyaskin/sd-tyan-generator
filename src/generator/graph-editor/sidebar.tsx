@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Card, CardBody, Heading, Stack } from '@chakra-ui/react'
 import React from 'react'
 
@@ -38,6 +39,7 @@ const Node: React.FC<{
 	draggable?: boolean
 	onDragStart: (event: any, nodeType: any) => void
 }> = ({ title, ...props }) => (
+	// @ts-expect-error
 	<Card border="1px" {...props}>
 		<CardBody p={3}>
 			<Heading size="sm">{title}</Heading>

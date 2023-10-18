@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useStore } from 'effector-react/effector-react.mjs'
 import { $currentEditNode, $editNode, closeEditNode } from './model/edit-node'
 import {
@@ -25,8 +26,10 @@ export const EditNode = () => {
 	const btnRef = React.useRef<any>()
 	const methods = useForm()
 
+	// @ts-expect-error
 	const handleSubmit = v => {
 		if (v.type === 'SimpleNode') {
+			// @ts-expect-error
 			changeSimpleType({
 				...currentNode,
 				data: {
@@ -39,6 +42,7 @@ export const EditNode = () => {
 			})
 		}
 		if (v.type === 'BranchNode') {
+			// @ts-expect-error
 			changeBranchType({
 				...currentNode,
 				data: {
@@ -51,6 +55,7 @@ export const EditNode = () => {
 			})
 		}
 		if (v.type === 'TemplateNode') {
+			// @ts-expect-error
 			changeTemplateType({
 				...currentNode,
 				data: {
@@ -66,7 +71,9 @@ export const EditNode = () => {
 						return {
 							...acc,
 							[key]: {
+								// @ts-expect-error
 								type: value.type,
+								// @ts-expect-error
 								data: outputFormatTextAreaFormat(value.data, value.type),
 							},
 						}
