@@ -1,14 +1,19 @@
-export const saveDataAsJSONFile = (data: { [key: string]: any }) => {
-  const json = JSON.stringify(data);
-  const blob = new Blob([json], { type: "application/json" });
+import { $nodeData } from '../generator/graph-editor/model'
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+export const saveDataAsJSONFile = () => {
+	const data = $nodeData.getState()
+	const id = new Date().getTime()
 
-  link.href = url;
-  link.download = "data.json";
+	const json = JSON.stringify({ ...data, id: id, name: id })
+	const blob = new Blob([json], { type: 'application/json' })
 
-  link.click();
+	const url = URL.createObjectURL(blob)
+	const link = document.createElement('a')
 
-  URL.revokeObjectURL(url);
-};
+	link.href = url
+	link.download = `${id}.json`
+
+	link.click()
+
+	URL.revokeObjectURL(url)
+}
