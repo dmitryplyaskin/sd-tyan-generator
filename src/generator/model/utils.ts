@@ -12,7 +12,7 @@ const getRandomIntInclusive = (min: number, max: number) => {
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-export const concatText = (array: string[]) => array.join(', ')
+export const concatText = (array: string[]) => array.filter(x => x).join(', ')
 export const getOneParam = (array: string[]) =>
 	array[getRandomIntInclusive(0, array.length - 1)]
 

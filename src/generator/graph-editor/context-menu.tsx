@@ -14,11 +14,11 @@ export default function ContextMenu({
 	const duplicateNode = useCallback(() => {
 		const node = getNode(id)
 		const position = {
-			x: node.position.x + 50,
-			y: node.position.y + 50,
+			x: node.position.x + 150,
+			y: node.position.y + 150,
 		}
 
-		addNodes({ ...node, id: `${node.id}-copy`, position })
+		addNodes({ ...node, id: `${new Date().getTime()}`, position })
 	}, [id, getNode, addNodes])
 
 	const deleteNode = useCallback(() => {

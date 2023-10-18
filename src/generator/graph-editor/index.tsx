@@ -24,6 +24,7 @@ import {
 	onNodesChange,
 	onUpdateEdge,
 	onUpdateEdgeEnd,
+	resetEdges,
 } from './model'
 import { EditNode } from './edit-node'
 import { EditableNodeType } from './model/types'
@@ -252,6 +253,13 @@ export const GraphEditor = () => {
 										onClick={() => saveDataAsJSONFile()}
 									>
 										Скачать
+									</Button>
+									<Button
+										variant="solid"
+										colorScheme="red"
+										onClick={() => resetEdges()}
+									>
+										Сбросить связи
 									</Button>
 								</ButtonGroup>
 							</ReactFlow>

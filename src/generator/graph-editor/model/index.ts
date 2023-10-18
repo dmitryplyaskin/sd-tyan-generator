@@ -36,6 +36,7 @@ export const onNodesChange = createEvent<NodeChange[]>()
 export const onNodeAdd = createEvent<AllNodeType>()
 
 export const onEdgesChange = createEvent<EdgeChange[]>()
+export const resetEdges = createEvent()
 export const onConnectEdge = createEvent<Edge | Connection>()
 export const onUpdateEdge = createEvent<{
 	edge: Edge
@@ -57,6 +58,7 @@ $edges
 		updateEdge(edge, connection, state)
 	)
 	.on(onUpdateEdgeEnd, (state, data) => state.filter(e => e.id !== data.id))
+	.on(resetEdges, () => [])
 
 export const $nodeData = combine({
 	nodes: $nodes,
