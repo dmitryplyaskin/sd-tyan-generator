@@ -1,23 +1,37 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button, ButtonGroup, Card, CardBody } from '@chakra-ui/react'
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useReactFlow } from 'reactflow'
 
-export default function ContextMenu(
-	// @ts-expect-error
-	{ id, top, left, right, bottom, ...props }
-) {
+export type ContextMenuOptions = {
+	id: string
+	placement: {
+		top: number
+		left: number
+	}
+}
+
+type ContextMenuProps = ContextMenuOptions & {
+	onClick: () => void
+}
+
+export const ContextMenu: React.FC<ContextMenuProps> = ({
+	id,
+	placement,
+	...props
+}) => {
 	const { getNode, setNodes, addNodes, setEdges } = useReactFlow()
 	const duplicateNode = useCallback(() => {
 		const node = getNode(id)
-		const position = {
-			// @ts-expect-error
-			x: node.position.x + 150,
-			// @ts-expect-error
-			y: node.position.y + 150,
+		if (node) {
+			const position = {
+				x: node.position.x + 150,
+
+				y: node.position.y + 150,
+			}
+
+			addNodes({ ...node, id: `${new Date().getTime()}`, position })
 		}
-		// @ts-expect-error
-		addNodes({ ...node, id: `${new Date().getTime()}`, position })
 	}, [id, getNode, addNodes])
 
 	const deleteNode = useCallback(() => {
@@ -27,9 +41,14 @@ export default function ContextMenu(
 
 	return (
 		<Card
-			style={{ top, left, right, bottom, zIndex: 10, position: 'absolute' }}
+			style={{
+				top: placement.top,
+				left: placement.left,
+				zIndex: 10,
+				position: 'absolute',
+			}}
+			border={'1px'}
 			className="context-menu"
-			{...props}
 			onClick={props.onClick}
 		>
 			<CardBody>
