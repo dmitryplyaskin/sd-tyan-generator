@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	base: '/sd-tyan-genarator',
+	base: '/sd-tyan-generator',
 	server: {
 		open: true,
 	},
