@@ -143,8 +143,6 @@ export const getValues = (
 ) => {
 	let arr = [] as string[]
 
-	// console.log(data);
-
 	if (range?.isRange) {
 		arr =
 			data.type === 'default'

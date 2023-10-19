@@ -35,6 +35,7 @@ import { ContextMenu, ContextMenuOptions } from './context-menu'
 import { saveDataAsJSONFile } from '../../utils/save-data-as-json-file'
 import { loadTemplate } from './model/templates'
 import { nodeTypes } from './nodes'
+import { EditorMenu } from './components/editor-menu'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
@@ -227,7 +228,8 @@ export const GraphEditor = () => {
 								<Controls />
 
 								{menu && <ContextMenu onClick={onPaneClick} {...menu} />}
-								<ButtonGroup
+								<EditorMenu />
+								{/* <ButtonGroup
 									spacing="2"
 									position={'absolute'}
 									top={'2'}
@@ -263,7 +265,7 @@ export const GraphEditor = () => {
 									>
 										Сбросить связи
 									</Button>
-								</ButtonGroup>
+								</ButtonGroup> */}
 							</ReactFlow>
 						</CardBody>
 					</Card>

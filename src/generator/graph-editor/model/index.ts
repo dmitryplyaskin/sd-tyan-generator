@@ -21,14 +21,16 @@ import {
 import { $activeTemplate } from './templates'
 import { generatePrompts } from './generatePrompts'
 
-export const $nodes = createStore<NodesType>([
+const DEFAULT_NODES: NodesType = [
 	{
 		id: '1',
 		type: 'StartNode',
 		position: { x: 0, y: 0 },
 		data: null,
 	},
-])
+]
+
+export const $nodes = createStore<NodesType>(DEFAULT_NODES)
 
 export const $edges = createStore<Edge[]>([])
 
@@ -44,12 +46,15 @@ export const onUpdateEdge = createEvent<{
 }>()
 export const onUpdateEdgeEnd = createEvent<Edge>()
 
+export const resetAllNodesAndEdges = createEvent()
+
 $nodes
 	.on(
 		onNodesChange,
 		(state, data) => applyNodeChanges(data, state) as NodesType
 	)
 	.on(onNodeAdd, (state, data) => [...state, data])
+	.on(resetAllNodesAndEdges, () => DEFAULT_NODES)
 
 $edges
 	.on(onEdgesChange, (state, data) => applyEdgeChanges(data, state))
@@ -59,6 +64,7 @@ $edges
 	)
 	.on(onUpdateEdgeEnd, (state, data) => state.filter(e => e.id !== data.id))
 	.on(resetEdges, () => [])
+	.on(resetAllNodesAndEdges, () => [])
 
 export const $nodeData = combine({
 	nodes: $nodes,

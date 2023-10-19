@@ -9,7 +9,7 @@ export const generatePrompts = (
 	settings: { count: number }
 ): string => {
 	let finalPrompt = ''
-	console.log(data)
+
 	for (let i = 0; i < (Number(settings.count) || 1); i++) {
 		let prompt = [] as string[]
 		prompt = generate(data, prompt)
@@ -45,8 +45,6 @@ export const generatePrompts = (
 		if (node.type === 'TemplateNode') {
 			prompt = prompt.concat(getTemplateValue(node.data))
 		}
-
-		// console.log(node, edge, nextNode)
 
 		if (!node || !edge || !nextNode) return prompt
 		prompt = generate(data, prompt, nextNode)
