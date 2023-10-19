@@ -9,14 +9,7 @@ import ReactFlow, {
 import { useState, useCallback, useRef } from 'react'
 import 'reactflow/dist/style.css'
 import { SideBar } from './sidebar'
-import {
-	Button,
-	ButtonGroup,
-	Card,
-	CardBody,
-	Input,
-	Stack,
-} from '@chakra-ui/react'
+import { Card, CardBody, Stack } from '@chakra-ui/react'
 import { Menu } from '../menu'
 import { useStore } from 'effector-react'
 import {
@@ -27,13 +20,10 @@ import {
 	onNodesChange,
 	onUpdateEdge,
 	onUpdateEdgeEnd,
-	resetEdges,
 } from './model'
 import { EditNode } from './edit-node'
 import { EditableNodeType } from './model/types'
 import { ContextMenu, ContextMenuOptions } from './context-menu'
-import { saveDataAsJSONFile } from '../../utils/save-data-as-json-file'
-import { loadTemplate } from './model/templates'
 import { nodeTypes } from './nodes'
 import { EditorMenu } from './components/editor-menu'
 
@@ -182,19 +172,6 @@ export const GraphEditor = () => {
 		edgeUpdateSuccessful.current = true
 	}, [])
 
-	const handleFileChange = (e: any) => {
-		const file = e.target.files[0]
-
-		const reader = new FileReader()
-
-		reader.onload = () => {
-			const text = reader.result as string
-			loadTemplate(JSON.parse(text))
-		}
-
-		reader.readAsText(file)
-	}
-
 	return (
 		<>
 			<ReactFlowProvider>
@@ -229,43 +206,6 @@ export const GraphEditor = () => {
 
 								{menu && <ContextMenu onClick={onPaneClick} {...menu} />}
 								<EditorMenu />
-								{/* <ButtonGroup
-									spacing="2"
-									position={'absolute'}
-									top={'2'}
-									right={'2'}
-									zIndex={11}
-								>
-									<Input
-										type="file"
-										hidden
-										id="fileUpload"
-										onChange={handleFileChange}
-									/>
-									<Button
-										variant="outline"
-										colorScheme="blue"
-										onClick={() =>
-											document.getElementById('fileUpload')?.click()
-										}
-									>
-										Загрузить
-									</Button>
-									<Button
-										variant="solid"
-										colorScheme="blue"
-										onClick={() => saveDataAsJSONFile()}
-									>
-										Скачать
-									</Button>
-									<Button
-										variant="solid"
-										colorScheme="red"
-										onClick={() => resetEdges()}
-									>
-										Сбросить связи
-									</Button>
-								</ButtonGroup> */}
 							</ReactFlow>
 						</CardBody>
 					</Card>
