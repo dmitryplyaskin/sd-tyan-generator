@@ -166,6 +166,7 @@ export const GraphEditor = () => {
 	const onEdgeUpdateStart = useCallback(() => {
 		edgeUpdateSuccessful.current = false
 	}, [])
+
 	// @ts-expect-error
 	const onEdgeUpdate = useCallback((edge, connection) => {
 		edgeUpdateSuccessful.current = true
