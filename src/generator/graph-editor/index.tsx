@@ -171,7 +171,7 @@ export const GraphEditor = () => {
 
 		edgeUpdateSuccessful.current = true
 	}, [])
-
+	console.log(edges)
 	return (
 		<>
 			<ReactFlowProvider>

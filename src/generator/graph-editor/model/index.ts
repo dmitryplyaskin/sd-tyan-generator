@@ -20,6 +20,7 @@ import {
 } from './types'
 import { $activeTemplate } from './templates'
 import { generatePrompts } from './generatePrompts'
+import { connectionEdgesHandler } from './utils'
 
 const DEFAULT_NODES: NodesType = [
 	{
@@ -58,7 +59,7 @@ $nodes
 
 $edges
 	.on(onEdgesChange, (state, data) => applyEdgeChanges(data, state))
-	.on(onConnectEdge, (state, data) => addEdge(data, state))
+	.on(onConnectEdge, connectionEdgesHandler)
 	.on(onUpdateEdge, (state, { edge, connection }) =>
 		updateEdge(edge, connection, state)
 	)

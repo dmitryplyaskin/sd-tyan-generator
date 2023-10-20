@@ -14,11 +14,11 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { SimpleNodeForm } from './edit-node-form/simple'
-import { BranchNodeForm } from './edit-node-form/branch'
-import { TemplateNodeForm } from './edit-node-form/template'
+import { SimpleNodeForm } from './components/edit-node-form/simple'
+import { BranchNodeForm } from './components/edit-node-form/branch'
+import { TemplateNodeForm } from './components/edit-node-form/template'
 import { changeBranchType, changeSimpleType, changeTemplateType } from './model'
-import { outputFormatTextAreaFormat } from '../components/utils'
+import { outputFormatTextAreaFormat } from '../utils'
 
 export const EditNode = () => {
 	const { isOpen } = useStore($editNode)
