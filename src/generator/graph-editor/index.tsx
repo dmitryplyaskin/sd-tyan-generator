@@ -23,15 +23,18 @@ import {
 } from './model'
 import { EditNode } from './edit-node'
 import { EditableNodeType } from './model/types'
-import { ContextMenu, ContextMenuOptions } from './context-menu'
+import { ContextMenu, ContextMenuOptions } from './components/context-menu'
 import { nodeTypes } from './nodes'
 import { EditorMenu } from './components/editor-menu'
+import { useRightClick } from './hooks/right-click'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
 	const [menu, setMenu] = useState<ContextMenuOptions | null>(null)
 	const ref = useRef<HTMLDivElement | null>(null)
 	const edgeUpdateSuccessful = useRef(true)
+
+	useRightClick(ref)
 
 	const reactFlowWrapper = useRef<HTMLDivElement | null>(null)
 	const [reactFlowInstance, setReactFlowInstance] = useState<OnInit<
@@ -171,7 +174,7 @@ export const GraphEditor = () => {
 
 		edgeUpdateSuccessful.current = true
 	}, [])
-	console.log(edges)
+
 	return (
 		<>
 			<ReactFlowProvider>

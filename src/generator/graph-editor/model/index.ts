@@ -7,7 +7,6 @@ import {
 	EdgeChange,
 	applyNodeChanges,
 	applyEdgeChanges,
-	addEdge,
 	Connection,
 	updateEdge,
 } from 'reactflow'

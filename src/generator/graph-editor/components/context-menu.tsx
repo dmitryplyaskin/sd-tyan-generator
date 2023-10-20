@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button, ButtonGroup, Card, CardBody } from '@chakra-ui/react'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useReactFlow } from 'reactflow'
 
 export type ContextMenuOptions = {
@@ -18,9 +18,12 @@ type ContextMenuProps = ContextMenuOptions & {
 export const ContextMenu: React.FC<ContextMenuProps> = ({
 	id,
 	placement,
-	...props
+	onClick,
 }) => {
 	const { getNode, setNodes, addNodes, setEdges } = useReactFlow()
+
+	const ref = useRef<HTMLDivElement>(null)
+
 	const duplicateNode = useCallback(() => {
 		const node = getNode(id)
 		if (node) {
@@ -49,7 +52,8 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
 			}}
 			border={'1px'}
 			className="context-menu"
-			onClick={props.onClick}
+			onClick={onClick}
+			ref={ref}
 		>
 			<CardBody>
 				<p style={{ margin: '0.5em' }}>
