@@ -1,5 +1,5 @@
 import { createStore, createEvent, combine } from 'effector'
-import { EditableNodeType } from './types'
+import { EditableNodeType, NodeNameType } from './types'
 import { $nodes } from './index'
 
 type EditNodeType = {
@@ -10,7 +10,7 @@ type EditNodeType = {
 
 export const $editNode = createStore<EditNodeType>({
 	isOpen: false,
-	type: 'SimpleNode',
+	type: NodeNameType.SimpleNode,
 	id: '',
 })
 

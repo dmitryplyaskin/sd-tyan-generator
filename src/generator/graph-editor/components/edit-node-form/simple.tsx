@@ -7,7 +7,7 @@ import {
 } from './_inputs_'
 import { useEffect } from 'react'
 import { SimpleNodeType } from '../../model/types'
-import { inputFormatTextAreaFormat } from '../../../utils'
+import { inputFormatTextAreaFormat } from '../../model/utils/format-value'
 
 export const SimpleNodeForm = ({ data }: SimpleNodeType) => {
 	const { reset } = useFormContext()

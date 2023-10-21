@@ -1,6 +1,10 @@
 import { AllNodeType, NodesType } from './types'
-import { concatText, getStepValues, getTemplateValue } from '../../model/utils'
 import { Edge } from 'reactflow'
+import {
+	concatText,
+	getStepValues,
+	getTemplateValue,
+} from './utils/common-utils'
 
 type Data = { nodes: NodesType; edges: Edge[] }
 
@@ -34,12 +38,7 @@ export const generatePrompts = (
 			const targetEdge = edges.find(
 				x => x.sourceHandle === `${node.id}-${branch}`
 			)?.target
-			console.log(
-				nodes,
-				branch,
-				edges.find(x => x.sourceHandle === `${node.id}-${branch}`),
-				targetEdge
-			)
+
 			nextNode = nodes.find(x => x.id === targetEdge)
 		}
 		if (node.type === 'TemplateNode') {

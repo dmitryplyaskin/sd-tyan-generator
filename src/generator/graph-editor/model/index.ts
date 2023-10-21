@@ -16,21 +16,23 @@ import {
 	NodesType,
 	SimpleNodeType,
 	TemplateNodeType,
+	NodeNameType,
 } from './types'
 import { $activeTemplate } from './templates'
 import { generatePrompts } from './generatePrompts'
-import { connectionEdgesHandler } from './utils'
+import { connectionEdgesHandler } from './utils/edge-connection'
 
 const DEFAULT_NODES: NodesType = [
 	{
 		id: '1',
-		type: 'StartNode',
+		type: NodeNameType.StartNode,
 		position: { x: 0, y: 0 },
 		data: null,
 	},
 ]
 
 export const $nodes = createStore<NodesType>(DEFAULT_NODES)
+export const $nodesCount = $nodes.map(x => x.length)
 
 export const $edges = createStore<Edge[]>([])
 

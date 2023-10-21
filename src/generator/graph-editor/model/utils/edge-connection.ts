@@ -4,10 +4,15 @@ export const connectionEdgesHandler = (
 	edges: Edge[],
 	newEdge: Edge | Connection
 ) => {
-	if (edges.find(x => x.source === newEdge.source))
+	const otherConnection = edges.find(
+		x => x.sourceHandle === newEdge.sourceHandle && x.source === newEdge.source
+	)
+
+	if (otherConnection) {
 		return addEdge(
 			newEdge,
-			edges.filter(x => x.source !== newEdge.source)
+			edges.filter(x => x.id !== otherConnection.id)
 		)
+	}
 	return addEdge(newEdge, edges)
 }

@@ -14,7 +14,7 @@ import {
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { UiSlider } from '../../../../components/ui/slider'
 import { UiRangeSlider } from '../../../../components/ui/range-slider'
-import { outputFormatTextAreaFormat } from '../../../utils'
+import { outputFormatTextAreaFormat } from '../../model/utils/format-value'
 
 export const NameInput = () => {
 	const { register } = useFormContext()
@@ -93,7 +93,9 @@ export const OptionalChanceInput = () => {
 }
 export const RangeInput = () => {
 	const { register, control } = useFormContext()
-	const [type, value] = useWatch({ name: ['values.type', 'values.data'] })
+	const [type, value] = useWatch({
+		name: ['values.type', 'values.data'],
+	})
 	const formattedValue = outputFormatTextAreaFormat(
 		typeof value !== 'string' ? '' : value,
 		type

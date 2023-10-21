@@ -1,11 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-	MetaData,
-	StepType,
-	StepWithValuesType,
-	TemplateStepInterface,
-	ValuesType,
-} from '../types'
+import { StepWithValuesType, TemplateStepInterface, ValuesType } from '../types'
 
 const getRandomIntInclusive = (min: number, max: number) => {
 	min = Math.ceil(min)
@@ -37,7 +30,10 @@ export const optionalParam = (result: string[], wight = 0.5) => {
 	return [] as string[]
 }
 
-const arraysIntersect = (arr: string[], obj: { [key: string]: string[] }) => {
+export const arraysIntersect = (
+	arr: string[],
+	obj: { [key: string]: string[] }
+) => {
 	return Object.values(obj).some(subArr => {
 		return subArr.some(value => arr.includes(value))
 	})
@@ -133,8 +129,7 @@ export const getStepValues = <T extends StepWithValuesType>(data: T) => {
 		)
 	}
 
-	// @ts-expect-error
-	if (data.isOptional) return optionalParam(arr, data.optionalChance)
+	if (data.optional?.isOptional) return optionalParam(arr, data.optional.value)
 	return arr
 }
 export const getValues = (
@@ -159,22 +154,22 @@ export const getValues = (
 	return arr
 }
 
-export const metaValidator = <T extends StepType>(
-	data: T,
-	meta: MetaData,
-	fn: () => string[]
-) => {
-	// @ts-expect-error
-	const checkTarget = Boolean(Object.entries(data.targetTags).length)
-	// @ts-expect-error
-	const metaKeys = Object.keys(data.targetTags)
-	const metaArray = metaKeys.reduce((a, c) => a.concat(meta[c]), [] as string[])
-	// @ts-expect-error
-	if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
-		return []
-	}
-	return fn()
-}
+// export const metaValidator = <T extends StepType>(
+// 	data: T,
+// 	meta: MetaData,
+// 	fn: () => string[]
+// ) => {
+// 	// @ts-expect-error
+// 	const checkTarget = Boolean(Object.entries(data.targetTags).length)
+// 	// @ts-expect-error
+// 	const metaKeys = Object.keys(data.targetTags)
+// 	const metaArray = metaKeys.reduce((a, c) => a.concat(meta[c]), [] as string[])
+// 	// @ts-expect-error
+// 	if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
+// 		return []
+// 	}
+// 	return fn()
+// }
 
 export const getTemplateValue = (data: TemplateStepInterface) => {
 	const value = getValues(data.templates, data.range)
@@ -188,7 +183,7 @@ export const getTemplateValue = (data: TemplateStepInterface) => {
 			let str = x.originalStr
 			for (const match of x.matches || []) {
 				const key = match.replace(/\${(.+?)}/g, '$1')
-				const value = getValues(data.keys[key])[0]
+				const value = getValues(data.keys[key] || {})[0]
 				str = str.replace(match, value)
 			}
 

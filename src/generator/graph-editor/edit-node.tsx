@@ -18,7 +18,8 @@ import { SimpleNodeForm } from './components/edit-node-form/simple'
 import { BranchNodeForm } from './components/edit-node-form/branch'
 import { TemplateNodeForm } from './components/edit-node-form/template'
 import { changeBranchType, changeSimpleType, changeTemplateType } from './model'
-import { outputFormatTextAreaFormat } from '../utils'
+import { outputFormatTextAreaFormat } from './model/utils/format-value'
+import { NodeNameType } from './model/types'
 
 export const EditNode = () => {
 	const { isOpen } = useStore($editNode)
@@ -26,10 +27,8 @@ export const EditNode = () => {
 	const btnRef = React.useRef<any>()
 	const methods = useForm()
 
-	// @ts-expect-error
-	const handleSubmit = v => {
-		if (v.type === 'SimpleNode') {
-			// @ts-expect-error
+	const handleSubmit = (v: any) => {
+		if (currentNode.type === NodeNameType.SimpleNode) {
 			changeSimpleType({
 				...currentNode,
 				data: {
@@ -41,8 +40,7 @@ export const EditNode = () => {
 				},
 			})
 		}
-		if (v.type === 'BranchNode') {
-			// @ts-expect-error
+		if (currentNode.type === NodeNameType.BranchNode) {
 			changeBranchType({
 				...currentNode,
 				data: {
@@ -54,8 +52,7 @@ export const EditNode = () => {
 				},
 			})
 		}
-		if (v.type === 'TemplateNode') {
-			// @ts-expect-error
+		if (currentNode.type === NodeNameType.TemplateNode) {
 			changeTemplateType({
 				...currentNode,
 				data: {
