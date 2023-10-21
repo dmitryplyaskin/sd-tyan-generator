@@ -49,7 +49,7 @@ export const onUpdateEdge = createEvent<{
 export const onUpdateEdgeEnd = createEvent<Edge>()
 
 export const resetAllNodesAndEdges = createEvent()
-$nodes.watch(console.log)
+
 $nodes
 	.on(
 		onNodesChange,

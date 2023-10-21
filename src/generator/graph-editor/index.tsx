@@ -29,20 +29,22 @@ import { EditorMenu } from './components/editor-menu'
 import { useRightClick } from './hooks/right-click'
 import { createNode } from './utils/add-node'
 import { NodeNameType } from './model/types'
+import { useMouseSelect } from './hooks/use-mouse-select'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
 	const [menu, setMenu] = useState<ContextMenuOptions | null>(null)
 	const ref = useRef<HTMLDivElement | null>(null)
 	const edgeUpdateSuccessful = useRef(true)
-
-	useRightClick(ref)
-
 	const reactFlowWrapper = useRef<HTMLDivElement | null>(null)
 	const [reactFlowInstance, setReactFlowInstance] = useState<OnInit<
 		any,
 		any
 	> | null>(null)
+
+	useRightClick(ref)
+	const SelectedArea = useMouseSelect(reactFlowWrapper, reactFlowInstance)
+
 	// @ts-expect-error
 	const onDragOver = useCallback(event => {
 		event.preventDefault()
@@ -142,6 +144,7 @@ export const GraphEditor = () => {
 							>
 								<Background />
 								<Controls />
+								<SelectedArea />
 
 								{menu && <ContextMenu onClick={onPaneClick} {...menu} />}
 								<EditorMenu />
