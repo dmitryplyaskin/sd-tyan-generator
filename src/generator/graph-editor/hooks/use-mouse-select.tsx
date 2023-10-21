@@ -1,3 +1,4 @@
+import { position } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { OnInit, XYPosition } from 'reactflow'
 
@@ -34,8 +35,13 @@ export const useMouseSelect = (
 			setStartMove(true)
 			setStartPosition(position)
 			console.log(position)
-			console.log(selectArea.style)
-			selectArea.style = `position: absolute; z-index: 15; width: 0px; height: 0px; background-color: rgba(0, 0, 0, 0.5); transform: translate(${position.x}px, ${position.y}px)`
+			console.log(selectArea)
+			selectArea.style.position = `absolute`
+			selectArea.style.zIndex = `15`
+			selectArea.style.width = `0px`
+			selectArea.style.height = `0px`
+			selectArea.style.backgroundColor = `rgba(0, 0, 0, 0.5)`
+			selectArea.style.transform = `translate(${position.x}px, ${position.y}px)`
 		}
 
 		const onMouseMove = (event: Event) => {
@@ -49,6 +55,10 @@ export const useMouseSelect = (
 					y: event.clientY - reactFlowBounds.top,
 				}) as XYPosition
 				setCurrentPosition(position)
+
+				selectArea.style.width = `${position.x}px`
+				selectArea.style.height = `${position.y}px`
+				console.log(selectArea.style.width, position)
 			}
 		}
 		const onMouseUp = (event: Event) => {
@@ -67,15 +77,11 @@ export const useMouseSelect = (
 	}, [init, reactFlowInstance, startMove])
 
 	useEffect(() => {
-		if (!init) return
 		const div = document.querySelector('.react-flow__nodes')!
-		div.insertAdjacentHTML(
-			'beforeend',
-			`<div class="select_area" style="position: absolute; z-index: 15; width: 300px; height: 300px; background-color: rgba(0, 0, 0, 0.5); z-index: 10"></div>`
-		)
+		div.insertAdjacentHTML('beforeend', `<div class="select_area"></div>`)
 
 		return () => {}
-	}, [init])
+	}, [])
 
 	const obj = {
 		xFrom: startPosition.x,
@@ -86,17 +92,17 @@ export const useMouseSelect = (
 
 	return () => (
 		<div
-			style={{
-				background: 'red',
-				opacity: '0.6',
-				position: 'absolute',
-				zIndex: 15,
-				transform: `translate(${obj.xFrom}, ${obj.yFrom})`,
-				left: 0,
-				top: 0,
-				width: obj.xTo - obj.xFrom,
-				height: obj.yTo - obj.yFrom,
-			}}
+		// style={{
+		// 	background: 'red',
+		// 	opacity: '0.6',
+		// 	position: 'absolute',
+		// 	zIndex: 15,
+		// 	transform: `translate(${obj.xFrom}, ${obj.yFrom})`,
+		// 	left: 0,
+		// 	top: 0,
+		// 	width: obj.xTo - obj.xFrom,
+		// 	height: obj.yTo - obj.yFrom,
+		// }}
 		></div>
 	)
 }
