@@ -6,8 +6,10 @@ import { Handle, Position, useNodeId, useUpdateNodeInternals } from 'reactflow'
 import { useEffect, useMemo } from 'react'
 import { NodeTitle } from './_components_'
 import { BranchNodeType } from '../model/types'
+import { useSelectedNode } from '../hooks/use-selected-node'
 
 export const BranchNode: React.FC<BranchNodeType> = node => {
+	const isSelected = useSelectedNode(node.id)
 	const { data } = node
 	const nodeId = useNodeId()
 
@@ -29,7 +31,7 @@ export const BranchNode: React.FC<BranchNodeType> = node => {
 	return (
 		<>
 			<Handle type="target" position={Position.Top} />
-			<Card border="1px">
+			<Card border="1px" sx={isSelected ? { borderColor: 'blue' } : {}}>
 				<CardBody pb={0}>
 					<NodeTitle {...node} />
 					<Stack
