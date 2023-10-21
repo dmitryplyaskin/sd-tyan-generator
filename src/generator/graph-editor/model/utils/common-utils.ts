@@ -1,3 +1,4 @@
+import { Node } from 'reactflow'
 import { StepWithValuesType, TemplateStepInterface, ValuesType } from '../types'
 
 const getRandomIntInclusive = (min: number, max: number) => {
@@ -191,4 +192,13 @@ export const getTemplateValue = (data: TemplateStepInterface) => {
 		})
 
 	return replaced
+}
+
+export const uniqueBy = (arr: Node[], key: keyof Node) => {
+	const seen = new Set()
+
+	return arr.filter(item => {
+		const k = item[key]
+		return seen.has(k) ? false : seen.add(k)
+	})
 }

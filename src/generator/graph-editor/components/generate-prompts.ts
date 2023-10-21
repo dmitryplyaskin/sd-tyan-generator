@@ -1,10 +1,10 @@
-import { AllNodeType, NodesType } from './types'
+import { AllNodeType, NodesType } from '../model/types'
 import { Edge } from 'reactflow'
 import {
 	concatText,
 	getStepValues,
 	getTemplateValue,
-} from './utils/common-utils'
+} from '../model/utils/common-utils'
 
 type Data = { nodes: NodesType; edges: Edge[] }
 

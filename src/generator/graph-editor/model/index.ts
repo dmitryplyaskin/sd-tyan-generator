@@ -19,7 +19,7 @@ import {
 	NodeNameType,
 } from './types'
 import { $activeTemplate } from './templates'
-import { generatePrompts } from './generatePrompts'
+import { generatePrompts } from '../components/generate-prompts'
 import { connectionEdgesHandler } from './utils/edge-connection'
 
 const DEFAULT_NODES: NodesType = [
@@ -49,7 +49,7 @@ export const onUpdateEdge = createEvent<{
 export const onUpdateEdgeEnd = createEvent<Edge>()
 
 export const resetAllNodesAndEdges = createEvent()
-
+$nodes.watch(console.log)
 $nodes
 	.on(
 		onNodesChange,
