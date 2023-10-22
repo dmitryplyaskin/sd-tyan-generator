@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Box, Card, CardBody, Stack } from '@chakra-ui/react'
+import { Box, Card, CardBody, Checkbox, Stack } from '@chakra-ui/react'
 
 import { Handle, Position, useNodeId, useUpdateNodeInternals } from 'reactflow'
 
@@ -7,6 +7,7 @@ import { useEffect, useMemo } from 'react'
 import { NodeTitle } from './_components_'
 import { BranchNodeType } from '../model/types'
 import { useSelectedNode } from '../hooks/use-selected-node'
+import { disableBranches } from '../model'
 
 export const BranchNode: React.FC<BranchNodeType> = node => {
 	const isSelected = useSelectedNode(node.id)
@@ -43,8 +44,16 @@ export const BranchNode: React.FC<BranchNodeType> = node => {
 					>
 						{handleList.map(x => {
 							return (
-								<Box key={x.id} pointerEvents="none" p={2}>
-									{x.label}
+								<Box key={x.id} p={2}>
+									<Checkbox
+										colorScheme="red"
+										isChecked={data.disabled?.includes(x.label)}
+										onChange={() =>
+											disableBranches({ id: node.id, disabled: x.label })
+										}
+									>
+										{x.label}
+									</Checkbox>
 									<Handle
 										type="source"
 										position={Position.Bottom}

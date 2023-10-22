@@ -3,6 +3,7 @@ import { Edge } from 'reactflow'
 import {
 	concatText,
 	getStepValues,
+	getStepValuesBranch,
 	getTemplateValue,
 } from '../model/utils/common-utils'
 
@@ -34,7 +35,7 @@ export const generatePrompts = (
 			prompt = prompt.concat(getStepValues(node.data))
 		}
 		if (node.type === 'BranchNode') {
-			const branch = getStepValues(node.data)
+			const branch = getStepValuesBranch(node.data)
 			const targetEdge = edges.find(
 				x => x.sourceHandle === `${node.id}-${branch}`
 			)?.target

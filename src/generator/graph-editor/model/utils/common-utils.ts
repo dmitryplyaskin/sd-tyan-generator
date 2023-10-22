@@ -1,5 +1,10 @@
 import { Node } from 'reactflow'
-import { StepWithValuesType, TemplateStepInterface, ValuesType } from '../types'
+import {
+	BranchStepInterface,
+	StepWithValuesType,
+	TemplateStepInterface,
+	ValuesType,
+} from '../types'
 
 const getRandomIntInclusive = (min: number, max: number) => {
 	min = Math.ceil(min)
@@ -105,17 +110,6 @@ export const weightedRandomMultiple = (
 
 export const getStepValues = <T extends StepWithValuesType>(data: T) => {
 	let arr = [] as string[]
-	// const checkTarget = Boolean(Object.entries(data.targetTags).length);
-
-	// const metaKeys = Object.keys(data.targetTags);
-	// const metaArray = metaKeys.reduce(
-	//   (a, c) => a.concat(meta[c]),
-	//   [] as string[]
-	// );
-
-	// if (checkTarget && !arraysIntersect(metaArray, data.targetTags)) {
-	//   return [];
-	// }
 
 	if (data.range?.isRange) {
 		arr =
@@ -132,6 +126,20 @@ export const getStepValues = <T extends StepWithValuesType>(data: T) => {
 
 	if (data.optional?.isOptional) return optionalParam(arr, data.optional.value)
 	return arr
+}
+export const getStepValuesBranch = (data: BranchStepInterface) => {
+	const disabledBranches = data.disabled || []
+	const values = { ...data.values }
+	if (values.type === 'default') {
+		values.data = values.data.filter(x => !disabledBranches.includes(x))
+	} else {
+		values.data = { ...values.data }
+		disabledBranches.forEach(x => {
+			delete values.data[x]
+		})
+	}
+
+	return getStepValues({ ...data, values })
 }
 export const getValues = (
 	data: ValuesType,

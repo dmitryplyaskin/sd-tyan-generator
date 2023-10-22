@@ -35,6 +35,7 @@ export interface SimpleStepInterface extends MainStepInterface {
 
 export interface BranchStepInterface extends MainStepInterface {
 	values: ValuesType
+	disabled?: string[]
 }
 
 export interface TemplateStepInterface extends MainStepInterface {

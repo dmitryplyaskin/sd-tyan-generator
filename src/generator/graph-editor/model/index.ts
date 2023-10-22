@@ -76,6 +76,7 @@ export const $nodeData = combine({
 export const changeSimpleType = createEvent<SimpleNodeType>()
 export const changeBranchType = createEvent<BranchNodeType>()
 export const changeTemplateType = createEvent<TemplateNodeType>()
+export const disableBranches = createEvent<{ id: string; disabled: string }>()
 
 $nodes
 	.on(changeSimpleType, (state, data) => {
@@ -98,6 +99,29 @@ $nodes
 		return state.map(x => {
 			if (x.id === data.id && x.type === 'TemplateNode') {
 				return { ...x, ...data }
+			}
+			return x
+		})
+	})
+	.on(disableBranches, (state, data) => {
+		return state.map(x => {
+			if (x.id === data.id && x.type === 'BranchNode') {
+				if (x.data.disabled?.includes(data.disabled)) {
+					return {
+						...x,
+						data: {
+							...x.data,
+							disabled: x.data.disabled.filter(x => x !== data.disabled),
+						},
+					}
+				}
+				return {
+					...x,
+					data: {
+						...x.data,
+						disabled: [...(x.data.disabled || []), data.disabled],
+					},
+				}
 			}
 			return x
 		})
