@@ -85,7 +85,7 @@ export type GlobalVarType = {
 }
 
 export type PageType = {
-	id: string
+	id: number
 	name: string
 	nodes: AllNodeType[]
 	edges: Edge[]
