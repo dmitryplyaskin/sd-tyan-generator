@@ -1,6 +1,41 @@
-import { createEvent, createStore } from 'effector'
+import { createEvent, createStore, sample } from 'effector'
 import { PageType } from '../generator/graph-editor/model/types'
 import persist from 'effector-localstorage'
+import {
+	$template,
+	clearTemplate,
+	initTemplate,
+	loadTemplate,
+} from './template'
+
+export const $pages = createStore<PageType[]>([])
+sample({
+	source: $template,
+	clock: [initTemplate, loadTemplate, clearTemplate],
+	fn(src) {
+		return src?.pages
+	},
+	target: $pages,
+})
+
+export const createPage = createEvent()
+export const updatePage = createEvent<PageType>()
+export const deletePage = createEvent<PageType>()
+export const duplicatePage = createEvent<PageType>()
+
+$pages
+	.on(createPage, state => [
+		{ id: new Date().getTime(), name: 'new page', nodes: [], edges: [] },
+		...state,
+	])
+	.on(updatePage, (state, page) =>
+		state.map(x => (x.id === page.id ? page : x))
+	)
+	.on(deletePage, (state, page) => state.filter(x => x.id !== page.id))
+	.on(duplicatePage, (state, page) => [
+		{ ...page, name: page.name + '-duplicate', id: new Date().getTime() },
+		...state,
+	])
 
 export const $activePages = createStore<PageType[]>([])
 export const openPage = createEvent<PageType>()
@@ -14,6 +49,7 @@ export const $currentPage = createStore<PageType | null>(null)
 
 $currentPage
 	.on(openPage, (_, page) => page)
+	.on(createPage, (_, page) => page)
 	.on(closePage, (state, page) => (state?.id === page.id ? null : state))
 
 persist({ store: $activePages, key: 'activePages' })

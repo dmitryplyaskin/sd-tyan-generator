@@ -14,31 +14,17 @@ const defaultTemplate: TemplateType = {
 
 export const $template = createStore<TemplateType>(defaultTemplate)
 export const loadTemplate = createEvent<TemplateType>()
+export const initTemplate = createEvent()
 export const clearTemplate = createEvent()
+export const updatePages = createEvent<PageType[]>()
 
 $template
 	.on(loadTemplate, (_, template) => template)
 	.on(clearTemplate, () => {})
-
-export const createPage = createEvent()
-export const updatePage = createEvent<PageType>()
-export const deletePage = createEvent<PageType>()
-
-$template
-	.on(createPage, state => ({
-		...state,
-		pages: [
-			{ id: new Date().getTime(), name: 'new page', nodes: [], edges: [] },
-			...state.pages,
-		],
-	}))
-	.on(updatePage, (state, page) => ({
-		...state,
-		pages: state.pages.map(x => (x.id === page.id ? page : x)),
-	}))
-	.on(deletePage, (state, page) => ({
-		...state,
-		pages: state.pages.filter(x => x.id !== page.id),
-	}))
+	.on(updatePages, (state, pages) => ({ ...state, pages }))
 
 persist({ store: $template, key: 'template' })
+
+setTimeout(() => {
+	initTemplate()
+}, 200)
