@@ -9,7 +9,7 @@ const defaultTemplate: TemplateType = {
 	edges: [],
 	pages: [],
 	functions: [],
-	globalVars: [],
+	globalVariables: [],
 }
 
 export const $template = createStore<TemplateType>(defaultTemplate)

@@ -98,5 +98,5 @@ export type TemplateType = {
 	edges: Edge[]
 	pages: PageType[]
 	functions: any[]
-	globalVars: GlobalVarType[]
+	globalVariables: GlobalVarType[]
 }

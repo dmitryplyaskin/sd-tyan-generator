@@ -9,9 +9,9 @@ import ReactFlow, {
 } from 'reactflow'
 import { useState, useCallback, useRef } from 'react'
 import 'reactflow/dist/style.css'
-import { SideBar } from './sidebar'
+
 import { Card, CardBody, Stack } from '@chakra-ui/react'
-import { Menu } from '../menu'
+
 import { useStore } from 'effector-react'
 import {
 	$nodeData,
@@ -29,7 +29,6 @@ import { EditorMenu } from './components/editor-menu'
 import { useRightClick } from './hooks/right-click'
 import { createNode } from './utils/add-node'
 import { NodeNameType } from './model/types'
-import { GlobalVar } from './components/global-var'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
@@ -116,11 +115,11 @@ export const GraphEditor = () => {
 		<>
 			<ReactFlowProvider>
 				<Stack spacing={4} display="flex" flexDirection="row" w="100%" h="100%">
-					<Stack spacing={4} w="300px">
+					{/* <Stack spacing={4} w="300px">
 						<SideBar />
 						<Menu />
 						<GlobalVar />
-					</Stack>
+					</Stack> */}
 
 					<Card sx={{ h: '100%', w: '100%' }} ref={reactFlowWrapper}>
 						<CardBody>
