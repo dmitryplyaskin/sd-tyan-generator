@@ -75,13 +75,28 @@ export type EditableNodeType =
 
 export type NodesType = AllNodeType[]
 
-export type TemplateType = {
-	id: number
+export type GenerationSettings = {
+	count: string | number
+}
+
+export type GlobalVarType = {
+	name: string
+	value: ValuesType
+}
+
+export type PageType = {
+	id: string
 	name: string
 	nodes: AllNodeType[]
 	edges: Edge[]
 }
 
-export type GenerationSettings = {
-	count: string | number
+export type TemplateType = {
+	id: number
+	name: string
+	nodes: AllNodeType[]
+	edges: Edge[]
+	pages: PageType[]
+	functions: any[]
+	globalVars: GlobalVarType[]
 }

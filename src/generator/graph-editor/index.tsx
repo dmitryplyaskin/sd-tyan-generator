@@ -29,6 +29,7 @@ import { EditorMenu } from './components/editor-menu'
 import { useRightClick } from './hooks/right-click'
 import { createNode } from './utils/add-node'
 import { NodeNameType } from './model/types'
+import { GlobalVar } from './components/global-var'
 
 export const GraphEditor = () => {
 	const { nodes, edges } = useStore($nodeData)
@@ -118,6 +119,7 @@ export const GraphEditor = () => {
 					<Stack spacing={4} w="300px">
 						<SideBar />
 						<Menu />
+						<GlobalVar />
 					</Stack>
 
 					<Card sx={{ h: '100%', w: '100%' }} ref={reactFlowWrapper}>
