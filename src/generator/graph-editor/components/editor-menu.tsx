@@ -19,8 +19,8 @@ import {
 } from '@chakra-ui/react'
 import { clearTemplates, duplicateTemplate } from '../model/templates'
 import { saveDataAsJSONFile } from '../../../utils/save-data-as-json-file'
-import { resetAllNodesAndEdges, resetEdges } from '../model'
-import { loadTemplate } from '../../../model'
+
+import { loadTemplate, resetAllNodesAndEdges, resetEdges } from '../../../model'
 
 export const EditorMenu = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()

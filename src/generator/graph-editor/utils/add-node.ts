@@ -1,6 +1,6 @@
 import { XYPosition } from 'reactflow'
 import { EditableNodeType, NodeNameType } from '../model/types'
-import { $nodesCount } from '../model'
+import { $nodesCount } from '../../../model'
 
 export const createNode = (type: NodeNameType, position: XYPosition) => {
 	const id = `${$nodesCount.getState() + 1}`

@@ -47,14 +47,5 @@ $activePages
 		state.filter(x => x.id !== page.id)
 	)
 
-export const $currentPage = createStore<PageType | null>(null)
-
-$currentPage
-	.on([openPage, createPage, duplicatePage], (_, page) => page)
-	.on([closePage, deletePage], (state, page) =>
-		state?.id === page.id ? null : state
-	)
-
 persist({ store: $pages, key: 'pages' })
 persist({ store: $activePages, key: 'activePages' })
-persist({ store: $currentPage, key: 'currentPage' })

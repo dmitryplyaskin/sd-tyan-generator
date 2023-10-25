@@ -36,19 +36,19 @@ export const $nodesCount = $nodes.map(x => x.length)
 
 export const $edges = createStore<Edge[]>([])
 
-export const onNodesChange = createEvent<NodeChange[]>()
-export const onNodeAdd = createEvent<AllNodeType>()
+const onNodesChange = createEvent<NodeChange[]>()
+const onNodeAdd = createEvent<AllNodeType>()
 
-export const onEdgesChange = createEvent<EdgeChange[]>()
-export const resetEdges = createEvent()
-export const onConnectEdge = createEvent<Edge | Connection>()
-export const onUpdateEdge = createEvent<{
+const onEdgesChange = createEvent<EdgeChange[]>()
+const resetEdges = createEvent()
+const onConnectEdge = createEvent<Edge | Connection>()
+const onUpdateEdge = createEvent<{
 	edge: Edge
 	connection: Connection
 }>()
-export const onUpdateEdgeEnd = createEvent<Edge>()
+const onUpdateEdgeEnd = createEvent<Edge>()
 
-export const resetAllNodesAndEdges = createEvent()
+const resetAllNodesAndEdges = createEvent()
 
 $nodes
 	.on(
