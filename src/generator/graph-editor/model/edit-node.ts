@@ -1,6 +1,6 @@
 import { createStore, createEvent, combine } from 'effector'
 import { EditableNodeType, NodeNameType } from './types'
-import { $nodes } from './index'
+import { $currentNodes } from '../../../model'
 
 type EditNodeType = {
 	isOpen: boolean
@@ -16,7 +16,7 @@ export const $editNode = createStore<EditNodeType>({
 
 export const $currentEditNode = combine(
 	$editNode,
-	$nodes,
+	$currentNodes,
 	({ id }, nodes) => nodes.find(x => x.id === id) as EditableNodeType
 )
 

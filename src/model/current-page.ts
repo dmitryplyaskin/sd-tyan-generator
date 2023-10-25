@@ -23,8 +23,15 @@ import {
 	applyNodeChanges,
 	updateEdge,
 } from 'reactflow'
-import { changeEdges, changeNodes } from './utils/node-editor'
+import {
+	changeEdges,
+	changeNodeData,
+	changeNodes,
+	disableNodeBranch,
+} from './utils/node-editor'
 import { connectionEdgesHandler } from '../generator/graph-editor/model/utils/edge-connection'
+import { sample } from 'effector'
+import { generatePrompts } from '../generator/graph-editor/components/generate-prompts'
 
 const DEFAULT_NODES: NodesType = [
 	{
@@ -48,10 +55,16 @@ export const $nodeEditor = $currentPage.map(x => ({
 	edges: x?.edges || [],
 }))
 
-export const $nodesCount = $nodeEditor.map(x => x.nodes.length)
+export const $currentNodesCount = $nodeEditor.map(x => x.nodes.length)
+export const $currentNodes = $nodeEditor.map(x => x.nodes)
 
 export const onNodesChange = createEvent<NodeChange[]>()
 export const onNodeAdd = createEvent<AllNodeType>()
+export const onNodeDataChange = createEvent<AllNodeType>()
+export const onNodeDisableBranches = createEvent<{
+	id: string
+	disabled: string
+}>()
 
 export const onEdgesChange = createEvent<EdgeChange[]>()
 export const resetEdges = createEvent()
@@ -77,6 +90,8 @@ $currentPage
 		resetAllNodesAndEdges,
 		changeNodes(() => DEFAULT_NODES)
 	)
+	.on(onNodeDataChange, changeNodes(changeNodeData))
+	.on(onNodeDisableBranches, changeNodes(disableNodeBranch))
 
 $currentPage
 	.on(
@@ -100,3 +115,13 @@ $currentPage
 	)
 
 persist({ store: $currentPage, key: 'currentPage' })
+
+export const $generateResult = createStore('')
+export const generate = createEvent<{ count: number }>()
+
+sample({
+	source: $nodeEditor,
+	clock: generate,
+	fn: generatePrompts,
+	target: $generateResult,
+})

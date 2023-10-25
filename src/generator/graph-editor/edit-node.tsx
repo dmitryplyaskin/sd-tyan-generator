@@ -17,9 +17,9 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { SimpleNodeForm } from './components/edit-node-form/simple'
 import { BranchNodeForm } from './components/edit-node-form/branch'
 import { TemplateNodeForm } from './components/edit-node-form/template'
-import { changeBranchType, changeSimpleType, changeTemplateType } from './model'
 import { outputFormatTextAreaFormat } from './model/utils/format-value'
 import { NodeNameType } from './model/types'
+import { onNodeDataChange } from '../../model'
 
 export const EditNode = () => {
 	const { isOpen } = useStore($editNode)
@@ -29,7 +29,7 @@ export const EditNode = () => {
 
 	const handleSubmit = (v: any) => {
 		if (currentNode.type === NodeNameType.SimpleNode) {
-			changeSimpleType({
+			onNodeDataChange({
 				...currentNode,
 				data: {
 					...v,
@@ -41,7 +41,7 @@ export const EditNode = () => {
 			})
 		}
 		if (currentNode.type === NodeNameType.BranchNode) {
-			changeBranchType({
+			onNodeDataChange({
 				...currentNode,
 				data: {
 					...v,
@@ -53,7 +53,7 @@ export const EditNode = () => {
 			})
 		}
 		if (currentNode.type === NodeNameType.TemplateNode) {
-			changeTemplateType({
+			onNodeDataChange({
 				...currentNode,
 				data: {
 					...v,

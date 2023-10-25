@@ -12,7 +12,7 @@ import {
 	Textarea,
 } from '@chakra-ui/react'
 import { useStore } from 'effector-react/effector-react.mjs'
-import { $generateResult, generate } from './graph-editor/model'
+import { $generateResult, generate } from '../model'
 
 export const Result = () => {
 	const value = useStore($generateResult)
