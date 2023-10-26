@@ -24,7 +24,7 @@ import {
 	changeNodes,
 	disableNodeBranch,
 } from './utils/node-editor'
-import { connectionEdgesHandler } from '../generator/graph-editor/model/utils/edge-connection'
+import { connectionEdgesHandler } from './utils/edge-connection'
 import { sample } from 'effector'
 import { generatePrompts } from '../generator/graph-editor/components/generate-prompts'
 

@@ -5,7 +5,7 @@ import {
 	getStepValues,
 	getStepValuesBranch,
 	getTemplateValue,
-} from '../model/utils/common-utils'
+} from '../../../model/utils/common-utils'
 
 type Data = { nodes: NodesType; edges: Edge[] }
 

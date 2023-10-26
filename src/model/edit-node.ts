@@ -1,6 +1,6 @@
 import { createStore, createEvent, combine } from 'effector'
-import { EditableNodeType, NodeNameType } from '../../../model/types'
-import { $currentNodes } from '../../../model'
+import { EditableNodeType, NodeNameType } from './types'
+import { $currentNodes } from '.'
 
 type EditNodeType = {
 	isOpen: boolean

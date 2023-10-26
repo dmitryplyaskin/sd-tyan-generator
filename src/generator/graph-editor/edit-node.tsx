@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useStore } from 'effector-react/effector-react.mjs'
-import { $currentEditNode, $editNode, closeEditNode } from './model/edit-node'
+import {
+	$currentEditNode,
+	$editNode,
+	closeEditNode,
+} from '../../model/edit-node'
 import {
 	Button,
 	Drawer,
@@ -17,7 +21,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { SimpleNodeForm } from './components/edit-node-form/simple'
 import { BranchNodeForm } from './components/edit-node-form/branch'
 import { TemplateNodeForm } from './components/edit-node-form/template'
-import { outputFormatTextAreaFormat } from './model/utils/format-value'
+import { outputFormatTextAreaFormat } from '../../model/utils/format-value'
 import { NodeNameType } from '../../model/types'
 import { onNodeDataChange } from '../../model'
 

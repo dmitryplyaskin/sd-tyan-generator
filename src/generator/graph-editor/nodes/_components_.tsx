@@ -1,7 +1,7 @@
 import { Heading, IconButton, Stack } from '@chakra-ui/react'
 import { EditableNodeType } from '../../../model/types'
 import { SettingsIcon } from '@chakra-ui/icons'
-import { openEditNode } from '../model/edit-node'
+import { openEditNode } from '../../../model/edit-node'
 
 export const NodeTitle: React.FC<EditableNodeType> = ({ data, type, id }) => {
 	return (

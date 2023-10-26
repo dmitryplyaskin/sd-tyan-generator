@@ -14,7 +14,7 @@ import {
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { UiSlider } from '../../../../components/ui/slider'
 import { UiRangeSlider } from '../../../../components/ui/range-slider'
-import { outputFormatTextAreaFormat } from '../../model/utils/format-value'
+import { outputFormatTextAreaFormat } from '../../../../model/utils/format-value'
 
 export const NameInput = () => {
 	const { register } = useFormContext()
