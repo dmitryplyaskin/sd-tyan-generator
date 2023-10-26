@@ -23,7 +23,7 @@ import {
 	changeNodeData,
 	changeNodes,
 	disableNodeBranch,
-} from './utils/node-editor'
+} from './utils/change-data-helpers'
 import { connectionEdgesHandler } from './utils/edge-connection'
 import { sample } from 'effector'
 import { generatePrompts } from '../generator/graph-editor/components/generate-prompts'

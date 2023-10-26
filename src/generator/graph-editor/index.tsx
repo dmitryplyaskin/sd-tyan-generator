@@ -13,7 +13,6 @@ import 'reactflow/dist/style.css'
 import { Card, CardBody, Stack } from '@chakra-ui/react'
 
 import { useStore } from 'effector-react'
-import {} from './model'
 import { EditNode } from './edit-node'
 import { ContextMenu, ContextMenuOptions } from './components/context-menu'
 import { nodeTypes } from './nodes'

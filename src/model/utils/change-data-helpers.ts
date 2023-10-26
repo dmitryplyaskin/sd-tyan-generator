@@ -1,5 +1,11 @@
 import { Edge } from 'reactflow'
-import { AllNodeType, NodeNameType, PageType } from '../types'
+import {
+	AllNodeType,
+	GlobalVarType,
+	NodeNameType,
+	PageType,
+	TemplateType,
+} from '../types'
 
 export const changeNodes =
 	<T>(fn: (state: AllNodeType[], data: T) => AllNodeType[]) =>
@@ -74,3 +80,9 @@ export const disableNodeBranch = (
 		return x
 	})
 }
+
+export const changeGlobalVar =
+	<T>(fn: (state: GlobalVarType[], data: T) => GlobalVarType[]) =>
+	(state: TemplateType, data: T) => {
+		return { ...state, globalVariables: fn(state.globalVariables, data) }
+	}
