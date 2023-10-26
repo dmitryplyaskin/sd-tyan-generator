@@ -20,7 +20,7 @@ import { nodeTypes } from './nodes'
 import { EditorMenu } from './components/editor-menu'
 import { useRightClick } from './hooks/right-click'
 import { createNode } from './utils/add-node'
-import { NodeNameType } from './model/types'
+import { NodeNameType } from '../../model/types'
 import {
 	$nodeEditor,
 	onNodeAdd,

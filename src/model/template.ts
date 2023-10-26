@@ -1,5 +1,5 @@
 import { createEvent, createStore } from 'effector'
-import { PageType, TemplateType } from '../generator/graph-editor/model/types'
+import { PageType, TemplateType } from './types'
 import persist from 'effector-localstorage'
 
 const defaultTemplate: TemplateType = {

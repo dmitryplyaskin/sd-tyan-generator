@@ -1,4 +1,4 @@
-import { AllNodeType, NodesType } from '../model/types'
+import { AllNodeType, NodesType } from '../../../model/types'
 import { Edge } from 'reactflow'
 import {
 	concatText,

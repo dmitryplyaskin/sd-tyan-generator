@@ -14,7 +14,7 @@ import {
 	IconButton,
 	Stack,
 } from '@chakra-ui/react'
-import { GlobalVarType } from '../model/types'
+import { GlobalVarType } from '../../../model/types'
 import { AddIcon } from '@chakra-ui/icons'
 import { FormProvider, useForm } from 'react-hook-form'
 import React from 'react'

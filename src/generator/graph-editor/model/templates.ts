@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createStore, createEvent, sample } from 'effector'
-import { TemplateType } from './types'
+import { TemplateType } from '../../../model/types'
 
 import persist from 'effector-localstorage'
 

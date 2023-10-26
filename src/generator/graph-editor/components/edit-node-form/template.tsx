@@ -7,7 +7,7 @@ import {
 	ValueInput,
 } from './_inputs_'
 import { useEffect } from 'react'
-import { TemplateNodeType } from '../../model/types'
+import { TemplateNodeType } from '../../../../model/types'
 import { inputFormatTextAreaFormat } from '../../model/utils/format-value'
 
 export const TemplateNodeForm = ({ data }: TemplateNodeType) => {

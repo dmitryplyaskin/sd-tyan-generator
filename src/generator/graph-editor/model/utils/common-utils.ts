@@ -4,7 +4,7 @@ import {
 	StepWithValuesType,
 	TemplateStepInterface,
 	ValuesType,
-} from '../types'
+} from '../../../../model/types'
 
 const getRandomIntInclusive = (min: number, max: number) => {
 	min = Math.ceil(min)

@@ -6,7 +6,7 @@ import {
 	ValueInput,
 } from './_inputs_'
 import { useEffect } from 'react'
-import { BranchNodeType } from '../../model/types'
+import { BranchNodeType } from '../../../../model/types'
 import { inputFormatTextAreaFormat } from '../../model/utils/format-value'
 
 export const BranchNodeForm = ({ data }: BranchNodeType) => {

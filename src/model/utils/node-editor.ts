@@ -1,9 +1,5 @@
 import { Edge } from 'reactflow'
-import {
-	AllNodeType,
-	NodeNameType,
-	PageType,
-} from '../../generator/graph-editor/model/types'
+import { AllNodeType, NodeNameType, PageType } from '../types'
 
 export const changeNodes =
 	<T>(fn: (state: AllNodeType[], data: T) => AllNodeType[]) =>

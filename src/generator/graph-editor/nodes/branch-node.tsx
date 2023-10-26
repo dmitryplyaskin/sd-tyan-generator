@@ -5,7 +5,7 @@ import { Handle, Position, useNodeId, useUpdateNodeInternals } from 'reactflow'
 
 import { useEffect, useMemo } from 'react'
 import { NodeTitle } from './_components_'
-import { BranchNodeType } from '../model/types'
+import { BranchNodeType } from '../../../model/types'
 import { useSelectedNode } from '../hooks/use-selected-node'
 import { onNodeDisableBranches } from '../../../model'
 

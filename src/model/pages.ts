@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from 'effector'
-import { PageType } from '../generator/graph-editor/model/types'
+import { PageType } from './types'
 import persist from 'effector-localstorage'
 import {
 	$template,

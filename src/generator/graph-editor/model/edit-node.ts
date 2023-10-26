@@ -1,5 +1,5 @@
 import { createStore, createEvent, combine } from 'effector'
-import { EditableNodeType, NodeNameType } from './types'
+import { EditableNodeType, NodeNameType } from '../../../model/types'
 import { $currentNodes } from '../../../model'
 
 type EditNodeType = {

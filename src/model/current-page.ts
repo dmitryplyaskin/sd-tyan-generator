@@ -6,12 +6,7 @@ import {
 	duplicatePage,
 	openPage,
 } from './pages'
-import {
-	AllNodeType,
-	NodeNameType,
-	NodesType,
-	PageType,
-} from '../generator/graph-editor/model/types'
+import { AllNodeType, NodeNameType, NodesType, PageType } from './types'
 import persist from 'effector-localstorage'
 import { createEvent } from 'effector/compat'
 import {

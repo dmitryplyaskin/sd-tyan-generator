@@ -18,7 +18,7 @@ import { SimpleNodeForm } from './components/edit-node-form/simple'
 import { BranchNodeForm } from './components/edit-node-form/branch'
 import { TemplateNodeForm } from './components/edit-node-form/template'
 import { outputFormatTextAreaFormat } from './model/utils/format-value'
-import { NodeNameType } from './model/types'
+import { NodeNameType } from '../../model/types'
 import { onNodeDataChange } from '../../model'
 
 export const EditNode = () => {

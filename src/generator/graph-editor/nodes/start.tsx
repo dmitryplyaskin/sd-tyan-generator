@@ -2,7 +2,7 @@ import { Card, CardBody, Heading } from '@chakra-ui/react'
 
 import { Handle, Position } from 'reactflow'
 import { useSelectedNode } from '../hooks/use-selected-node'
-import { StartNodeType } from '../model/types'
+import { StartNodeType } from '../../../model/types'
 
 export const StartNode: React.FC<StartNodeType> = node => {
 	const isSelected = useSelectedNode(node.id)

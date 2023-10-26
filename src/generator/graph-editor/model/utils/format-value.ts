@@ -1,4 +1,8 @@
-import { ValuesFormatType, ValuesType, WeightValueType } from '../types'
+import {
+	ValuesFormatType,
+	ValuesType,
+	WeightValueType,
+} from '../../../../model/types'
 
 export const inputFormatTextAreaFormat = ({ data, type }: ValuesType) => {
 	if (type === 'default') {
