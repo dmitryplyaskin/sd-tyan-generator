@@ -1,5 +1,11 @@
 import { useStore } from 'effector-react'
-import { $currentPage, $pages, deletePage, openPage } from '../../model'
+import {
+	$currentPage,
+	$pages,
+	createPage,
+	deletePage,
+	openPage,
+} from '../../model'
 
 import {
 	AccordionComponent,
@@ -20,10 +26,12 @@ export const PagesComponent = () => {
 					isActive: currentPage?.id === x.id,
 					onClick: () => openPage(x),
 					onDelete: () => deletePage(x),
-					onEdit: () => {},
+					// onEdit: () => {},
 				} as AccordionItemComponentProps)
 		)
 	}, [currentPage?.id, pages])
 
-	return <AccordionComponent title="Pages" list={list} />
+	return (
+		<AccordionComponent title="Pages" list={list} onAdd={() => createPage()} />
+	)
 }

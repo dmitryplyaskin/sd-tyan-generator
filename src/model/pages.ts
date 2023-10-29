@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from 'effector'
-import { PageType } from './types'
+import { NodeNameType, PageType, StartNodeType } from './types'
 import persist from 'effector-localstorage'
 import {
 	$template,
@@ -7,6 +7,13 @@ import {
 	initTemplate,
 	loadTemplate,
 } from './template'
+
+const StartNode: StartNodeType = {
+	type: NodeNameType.StartNode,
+	id: `${new Date().getTime()}`,
+	data: null,
+	position: { x: 0, y: 0 },
+}
 
 export const $pages = createStore<PageType[]>([])
 sample({
@@ -25,7 +32,12 @@ export const duplicatePage = createEvent<PageType>()
 
 $pages
 	.on(createPage, state => [
-		{ id: new Date().getTime(), name: 'new page', nodes: [], edges: [] },
+		{
+			id: new Date().getTime(),
+			name: 'new page',
+			nodes: [StartNode],
+			edges: [],
+		},
 		...state,
 	])
 	.on(updatePage, (state, page) =>

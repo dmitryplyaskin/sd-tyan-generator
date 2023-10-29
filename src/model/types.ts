@@ -82,7 +82,7 @@ export type GenerationSettings = {
 export type GlobalVarType = {
 	id: number
 	name: string
-	value: ValuesType
+	values: ValuesType
 }
 
 export type PageType = {
