@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useEffect, useMemo } from 'react'
 import {
 	FormControl,
 	FormLabel,
@@ -14,14 +15,14 @@ import {
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { UiSlider } from '../../../../components/ui/slider'
 import { UiRangeSlider } from '../../../../components/ui/range-slider'
-import { outputFormatTextAreaFormat } from '../../model/utils/format-value'
+import { outputFormatTextAreaFormat } from '../../../../model/utils/format-value'
 
 export const NameInput = () => {
 	const { register } = useFormContext()
 
 	return (
 		<FormControl>
-			<FormLabel>Название</FormLabel>
+			<FormLabel>Title:</FormLabel>
 			<Input {...register('name')} />
 		</FormControl>
 	)
@@ -37,7 +38,7 @@ export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 		<Box>
 			<FormControl display={'flex'} alignItems={'center'} gap={4} mb="2">
 				<FormLabel m="0" htmlFor="values-type-id" size={'sm'}>
-					Тип значения
+					Value type:
 				</FormLabel>
 				<Controller
 					name={`${name}.type`}
@@ -49,15 +50,15 @@ export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 							defaultValue="default"
 						>
 							<Stack direction="row">
-								<Radio value="default">default</Radio>
-								<Radio value="weight">weight</Radio>
+								<Radio value="default">Default</Radio>
+								<Radio value="weight">Weight</Radio>
 							</Stack>
 						</RadioGroup>
 					)}
 				/>
 			</FormControl>
 			<FormControl>
-				<FormLabel>Значения</FormLabel>
+				<FormLabel>Value</FormLabel>
 				<Textarea h={height} {...register(`${name}.data`)} />
 			</FormControl>
 		</Box>
@@ -72,7 +73,7 @@ export const OptionalChanceInput = () => {
 				Случайный параметр (шанс с которым парметр попадет в генерацию)
 			</FormLabel>
 			<Checkbox size="lg" {...register('optional.isOptional')} sx={{ mb: 8 }}>
-				Включить
+				Enable
 			</Checkbox>
 			<Controller
 				name="optional.value"
@@ -133,18 +134,35 @@ export const RangeInput = () => {
 }
 export const TemplateInput = () => {
 	const [type, value] = useWatch({ name: ['templates.type', 'templates.data'] })
-	const formattedValue = outputFormatTextAreaFormat(
-		typeof value !== 'string' ? '' : value,
-		type
-	)
+	const values = useWatch()
+	const form = useFormContext()
 
-	const keys_ =
-		(formattedValue as string[])
-			?.map?.(x => x.match(/\${(.+?)}/g))
-			?.reduce((a, c) => [...a, ...(c || [])], [] as string[])
-			?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
+	const keys = useMemo(() => {
+		const formattedValue = outputFormatTextAreaFormat(
+			typeof value !== 'string' ? '' : value,
+			type
+		)
 
-	const keys = [...new Set(keys_)]
+		const keys_ =
+			(formattedValue as string[])
+				?.map?.(x => x.match(/\${(.+?)}/g))
+				?.reduce((a, c) => [...a, ...(c || [])], [] as string[])
+				?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
+
+		return [...new Set(keys_)]
+	}, [type, value])
+
+	useEffect(() => {
+		const deadKeys = Object.keys(values.keys || {}).filter(
+			x => !keys.includes(x)
+		)
+
+		if (deadKeys.length) {
+			deadKeys.forEach(x => {
+				form.unregister(`keys.${x}`)
+			})
+		}
+	}, [keys])
 
 	return (
 		<FormControl>

@@ -1,13 +1,16 @@
-import { AllNodeType, NodesType } from '../model/types'
+import { AllNodeType, GlobalVarType, NodesType } from '../types'
 import { Edge } from 'reactflow'
 import {
 	concatText,
 	getStepValues,
 	getStepValuesBranch,
 	getTemplateValue,
-} from '../model/utils/common-utils'
+} from './common-utils'
 
-type Data = { nodes: NodesType; edges: Edge[] }
+type Data = {
+	nodeEditor: { nodes: NodesType; edges: Edge[] }
+	globalVars: GlobalVarType[]
+}
 
 export const generatePrompts = (
 	data: Data,
@@ -24,8 +27,12 @@ export const generatePrompts = (
 
 	return finalPrompt
 
-	function generate(data: Data, prompt: string[], node_?: AllNodeType) {
-		const { nodes, edges } = data
+	function generate(
+		{ nodeEditor, globalVars }: Data,
+		prompt: string[],
+		node_?: AllNodeType
+	) {
+		const { nodes, edges } = nodeEditor
 		const node = node_ || nodes.find(x => x.type === 'StartNode')!
 		const edge = edges.find(e => e.source === node.id)
 
@@ -43,7 +50,7 @@ export const generatePrompts = (
 			nextNode = nodes.find(x => x.id === targetEdge)
 		}
 		if (node.type === 'TemplateNode') {
-			prompt = prompt.concat(getTemplateValue(node.data))
+			prompt = prompt.concat(getTemplateValue(node.data, globalVars))
 		}
 
 		if (!node || !edge || !nextNode) return prompt

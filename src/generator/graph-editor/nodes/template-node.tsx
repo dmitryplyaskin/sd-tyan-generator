@@ -1,7 +1,7 @@
 import { Card, CardBody } from '@chakra-ui/react'
 
 import { Handle, Position } from 'reactflow'
-import { TemplateNodeType } from '../model/types'
+import { TemplateNodeType } from '../../../model/types'
 import { NodeTitle } from './_components_'
 import { useSelectedNode } from '../hooks/use-selected-node'
 

@@ -17,13 +17,10 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 } from '@chakra-ui/react'
-import {
-	clearTemplates,
-	duplicateTemplate,
-	loadTemplate,
-} from '../model/templates'
+
 import { saveDataAsJSONFile } from '../../../utils/save-data-as-json-file'
-import { resetAllNodesAndEdges, resetEdges } from '../model'
+
+import { loadTemplate, resetAllNodesAndEdges, resetEdges } from '../../../model'
 
 export const EditorMenu = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
@@ -54,9 +51,10 @@ export const EditorMenu = () => {
 			resetEdges()
 		} else if (type === 'delete-nodes-and-edges') {
 			resetAllNodesAndEdges()
-		} else if (type === 'delete-templates') {
-			clearTemplates()
 		}
+		// else if (type === 'delete-templates') {
+		// 	clearTemplates()
+		// }
 		onClose()
 	}
 
@@ -81,7 +79,7 @@ export const EditorMenu = () => {
 							Загрузить
 						</MenuItem>
 						<MenuItem onClick={() => saveDataAsJSONFile()}>Скачать</MenuItem>
-						<MenuItem onClick={() => duplicateTemplate()}>Дублировать</MenuItem>
+						{/* <MenuItem onClick={() => duplicateTemplate()}>Дублировать</MenuItem> */}
 						<MenuDivider />
 						<MenuItem color="red" onClick={() => openAlert('delete-edges')}>
 							Удалить связи
@@ -92,9 +90,9 @@ export const EditorMenu = () => {
 						>
 							Удалить ноды и связи
 						</MenuItem>
-						<MenuItem color="red" onClick={() => openAlert('delete-templates')}>
+						{/* <MenuItem color="red" onClick={() => openAlert('delete-templates')}>
 							Удалить все теплейты
-						</MenuItem>
+						</MenuItem> */}
 					</MenuList>
 				</Menu>
 			</Box>

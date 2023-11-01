@@ -9,29 +9,29 @@ import ReactFlow, {
 } from 'reactflow'
 import { useState, useCallback, useRef } from 'react'
 import 'reactflow/dist/style.css'
-import { SideBar } from './sidebar'
+
 import { Card, CardBody, Stack } from '@chakra-ui/react'
-import { Menu } from '../menu'
+
 import { useStore } from 'effector-react'
-import {
-	$nodeData,
-	onConnectEdge,
-	onEdgesChange,
-	onNodeAdd,
-	onNodesChange,
-	onUpdateEdge,
-	onUpdateEdgeEnd,
-} from './model'
 import { EditNode } from './edit-node'
 import { ContextMenu, ContextMenuOptions } from './components/context-menu'
 import { nodeTypes } from './nodes'
 import { EditorMenu } from './components/editor-menu'
 import { useRightClick } from './hooks/right-click'
 import { createNode } from './utils/add-node'
-import { NodeNameType } from './model/types'
+import { NodeNameType } from '../../model/types'
+import {
+	$nodeEditor,
+	onNodeAdd,
+	onNodesChange,
+	onConnectEdge,
+	onEdgesChange,
+	onUpdateEdge,
+	onUpdateEdgeEnd,
+} from '../../model'
 
 export const GraphEditor = () => {
-	const { nodes, edges } = useStore($nodeData)
+	const { nodes, edges } = useStore($nodeEditor)
 	const [menu, setMenu] = useState<ContextMenuOptions | null>(null)
 	const ref = useRef<HTMLDivElement | null>(null)
 	const edgeUpdateSuccessful = useRef(true)
@@ -115,10 +115,11 @@ export const GraphEditor = () => {
 		<>
 			<ReactFlowProvider>
 				<Stack spacing={4} display="flex" flexDirection="row" w="100%" h="100%">
-					<Stack spacing={4} w="300px">
+					{/* <Stack spacing={4} w="300px">
 						<SideBar />
 						<Menu />
-					</Stack>
+						<GlobalVar />
+					</Stack> */}
 
 					<Card sx={{ h: '100%', w: '100%' }} ref={reactFlowWrapper}>
 						<CardBody>

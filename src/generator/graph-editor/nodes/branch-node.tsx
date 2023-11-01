@@ -5,9 +5,9 @@ import { Handle, Position, useNodeId, useUpdateNodeInternals } from 'reactflow'
 
 import { useEffect, useMemo } from 'react'
 import { NodeTitle } from './_components_'
-import { BranchNodeType } from '../model/types'
+import { BranchNodeType } from '../../../model/types'
 import { useSelectedNode } from '../hooks/use-selected-node'
-import { disableBranches } from '../model'
+import { onNodeDisableBranches } from '../../../model'
 
 export const BranchNode: React.FC<BranchNodeType> = node => {
 	const isSelected = useSelectedNode(node.id)
@@ -49,7 +49,7 @@ export const BranchNode: React.FC<BranchNodeType> = node => {
 										colorScheme="red"
 										isChecked={data.disabled?.includes(x.label)}
 										onChange={() =>
-											disableBranches({ id: node.id, disabled: x.label })
+											onNodeDisableBranches({ id: node.id, disabled: x.label })
 										}
 									>
 										{x.label}
