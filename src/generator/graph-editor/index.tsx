@@ -17,7 +17,6 @@ import { EditNode } from './edit-node'
 import { ContextMenu, ContextMenuOptions } from './components/context-menu'
 import { nodeTypes } from './nodes'
 import { EditorMenu } from './components/editor-menu'
-import { useRightClick } from './hooks/right-click'
 import { createNode } from './utils/add-node'
 import { NodeNameType } from '../../model/types'
 import {
@@ -35,8 +34,6 @@ export const GraphEditor = () => {
 	const [menu, setMenu] = useState<ContextMenuOptions | null>(null)
 	const ref = useRef<HTMLDivElement | null>(null)
 	const edgeUpdateSuccessful = useRef(true)
-
-	useRightClick(ref)
 
 	const reactFlowWrapper = useRef<HTMLDivElement | null>(null)
 	const [reactFlowInstance, setReactFlowInstance] = useState<OnInit<
@@ -79,7 +76,7 @@ export const GraphEditor = () => {
 	const onNodeContextMenu = useCallback<NodeMouseHandler>(
 		(event, node) => {
 			event.preventDefault()
-			if (ref.current) {
+			if (ref.current && node.type !== NodeNameType.StartNode) {
 				setMenu({
 					id: node.id,
 					placement: {
@@ -115,12 +112,6 @@ export const GraphEditor = () => {
 		<>
 			<ReactFlowProvider>
 				<Stack spacing={4} display="flex" flexDirection="row" w="100%" h="100%">
-					{/* <Stack spacing={4} w="300px">
-						<SideBar />
-						<Menu />
-						<GlobalVar />
-					</Stack> */}
-
 					<Card sx={{ h: '100%', w: '100%' }} ref={reactFlowWrapper}>
 						<CardBody>
 							<ReactFlow
@@ -151,7 +142,6 @@ export const GraphEditor = () => {
 					</Card>
 				</Stack>
 			</ReactFlowProvider>
-
 			<EditNode />
 		</>
 	)
