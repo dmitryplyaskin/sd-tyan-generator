@@ -95,8 +95,6 @@ export type PageType = {
 export type TemplateType = {
 	id: number
 	name: string
-	nodes: AllNodeType[]
-	edges: Edge[]
 	pages: PageType[]
 	functions: any[]
 	globalVariables: GlobalVarType[]

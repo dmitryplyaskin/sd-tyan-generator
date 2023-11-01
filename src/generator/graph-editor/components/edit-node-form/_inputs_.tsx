@@ -22,7 +22,7 @@ export const NameInput = () => {
 
 	return (
 		<FormControl>
-			<FormLabel>Название</FormLabel>
+			<FormLabel>Title:</FormLabel>
 			<Input {...register('name')} />
 		</FormControl>
 	)
@@ -38,7 +38,7 @@ export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 		<Box>
 			<FormControl display={'flex'} alignItems={'center'} gap={4} mb="2">
 				<FormLabel m="0" htmlFor="values-type-id" size={'sm'}>
-					Тип значения
+					Value type:
 				</FormLabel>
 				<Controller
 					name={`${name}.type`}
@@ -50,15 +50,15 @@ export const ValueInput: React.FC<{ name?: string; height?: string }> = ({
 							defaultValue="default"
 						>
 							<Stack direction="row">
-								<Radio value="default">default</Radio>
-								<Radio value="weight">weight</Radio>
+								<Radio value="default">Default</Radio>
+								<Radio value="weight">Weight</Radio>
 							</Stack>
 						</RadioGroup>
 					)}
 				/>
 			</FormControl>
 			<FormControl>
-				<FormLabel>Значения</FormLabel>
+				<FormLabel>Value</FormLabel>
 				<Textarea h={height} {...register(`${name}.data`)} />
 			</FormControl>
 		</Box>
@@ -73,7 +73,7 @@ export const OptionalChanceInput = () => {
 				Случайный параметр (шанс с которым парметр попадет в генерацию)
 			</FormLabel>
 			<Checkbox size="lg" {...register('optional.isOptional')} sx={{ mb: 8 }}>
-				Включить
+				Enable
 			</Checkbox>
 			<Controller
 				name="optional.value"

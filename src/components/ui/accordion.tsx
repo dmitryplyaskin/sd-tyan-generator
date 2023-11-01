@@ -16,7 +16,7 @@ export type AccordionItemComponentProps = {
 	id: number
 	name: string
 	isActive?: boolean
-	onClick: () => void
+	onClick?: () => void
 	onDelete?: () => void
 	onEdit?: () => void
 }
@@ -82,7 +82,7 @@ const Item: React.FC<AccordionItemComponentProps> = ({
 		gap="2"
 		cursor="pointer"
 	>
-		<Text mr="auto" w={'full'} onClick={onClick}>
+		<Text mr="auto" w={'full'} onClick={onClick || (() => {})}>
 			{name}
 		</Text>
 

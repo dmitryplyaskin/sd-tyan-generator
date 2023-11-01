@@ -31,6 +31,7 @@ export const createPage = createEvent()
 export const updatePage = createEvent<PageType>()
 export const deletePage = createEvent<PageType>()
 export const savePage = createEvent<PageType | null>()
+export const editPage = createEvent<PageType>()
 export const duplicatePage = createEvent<PageType>()
 
 $pages
@@ -65,8 +66,27 @@ $activePages
 		state.filter(x => x.id !== page.id)
 	)
 
-persist({ store: $pages, key: 'pages' })
-persist({ store: $activePages, key: 'activePages' })
+export const $editPage = createStore({
+	isOpen: false,
+	data: {} as PageType,
+})
+
+export const openEditPage = createEvent<PageType>()
+export const saveEditPage = createEvent<PageType>()
+export const closeEditPage = createEvent()
+
+$editPage
+	.on(openEditPage, (_, data) => ({
+		isOpen: true,
+		data,
+	}))
+	.on(saveEditPage, state => ({
+		...state,
+		isOpen: false,
+	}))
+
+sample({ clock: saveEditPage, target: closeEditPage })
+sample({ clock: saveEditPage, target: updatePage })
 
 const saveCurrentPages = createEvent<PageType[]>()
 const debounced = debounce({
@@ -79,3 +99,5 @@ sample({
 	target: saveCurrentPages,
 })
 sample({ clock: debounced, target: updatePages })
+
+persist({ store: $activePages, key: 'activePages' })

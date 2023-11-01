@@ -5,8 +5,6 @@ import persist from 'effector-localstorage'
 const defaultTemplate: TemplateType = {
 	id: new Date().getTime(),
 	name: 'default template',
-	nodes: [],
-	edges: [],
 	pages: [],
 	functions: [],
 	globalVariables: [],

@@ -13,6 +13,7 @@ export const GlobalVariablesComponent = () => {
 	const vars = useStore($globalVars)
 
 	const list = useMemo(() => {
+		if (!vars.length) return [{ id: 1, name: 'Add variables' }]
 		return vars.map(x => ({
 			id: x.id,
 			name: x.name,

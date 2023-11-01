@@ -1,17 +1,16 @@
-import { $nodeEditor } from '../model'
+import { $template } from '../model'
 
 export const saveDataAsJSONFile = () => {
-	const data = $nodeEditor.getState()
-	const id = new Date().getTime()
+	const data = $template.getState()
 
-	const json = JSON.stringify({ ...data, id: id, name: id })
+	const json = JSON.stringify(data)
 	const blob = new Blob([json], { type: 'application/json' })
 
 	const url = URL.createObjectURL(blob)
 	const link = document.createElement('a')
 
 	link.href = url
-	link.download = `${id}.json`
+	link.download = `sd-tyan-generator-template.json`
 
 	link.click()
 

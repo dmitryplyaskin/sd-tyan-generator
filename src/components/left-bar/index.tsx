@@ -12,7 +12,6 @@ export const LeftBar = () => {
 				<CardBody>
 					<Stack spacing={4}>
 						<PagesComponent />
-
 						<FunctionsComponent />
 						<GlobalVariablesComponent />
 					</Stack>

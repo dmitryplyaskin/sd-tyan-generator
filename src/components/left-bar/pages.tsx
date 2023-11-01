@@ -4,6 +4,7 @@ import {
 	$pages,
 	createPage,
 	deletePage,
+	openEditPage,
 	openPage,
 } from '../../model'
 
@@ -12,6 +13,7 @@ import {
 	AccordionItemComponentProps,
 } from '../ui/accordion'
 import { useMemo } from 'react'
+import { EditPage } from '../../generator/graph-editor/components/edit-page'
 
 export const PagesComponent = () => {
 	const pages = useStore($pages)
@@ -26,12 +28,19 @@ export const PagesComponent = () => {
 					isActive: currentPage?.id === x.id,
 					onClick: () => openPage(x),
 					onDelete: () => deletePage(x),
-					// onEdit: () => {},
+					onEdit: () => openEditPage(x),
 				} as AccordionItemComponentProps)
 		)
 	}, [currentPage?.id, pages])
 
 	return (
-		<AccordionComponent title="Pages" list={list} onAdd={() => createPage()} />
+		<>
+			<AccordionComponent
+				title="Pages"
+				list={list}
+				onAdd={() => createPage()}
+			/>
+			<EditPage />
+		</>
 	)
 }
