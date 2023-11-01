@@ -1,6 +1,7 @@
 import { Node } from 'reactflow'
 import {
 	BranchStepInterface,
+	GlobalVarType,
 	StepWithValuesType,
 	TemplateStepInterface,
 	ValuesType,
@@ -180,7 +181,15 @@ export const getValues = (
 // 	return fn()
 // }
 
-export const getTemplateValue = (data: TemplateStepInterface) => {
+export const valuesLength = (values: ValuesType) => {
+	if (values.type === 'default') return values.data.length
+	return Object.entries(values.data).length
+}
+
+export const getTemplateValue = (
+	data: TemplateStepInterface,
+	globalVars: GlobalVarType[]
+) => {
 	const value = getValues(data.templates, data.range)
 
 	const replaced = value
@@ -192,7 +201,17 @@ export const getTemplateValue = (data: TemplateStepInterface) => {
 			let str = x.originalStr
 			for (const match of x.matches || []) {
 				const key = match.replace(/\${(.+?)}/g, '$1')
-				const value = getValues(data.keys[key] || {})[0]
+				const keyObj = valuesLength(data.keys[key])
+					? data.keys[key]
+					: globalVars.find(variable => variable.name === key)?.values
+
+				const value = getValues(
+					keyObj || {
+						type: 'default',
+						data: [],
+					}
+				)[0]
+
 				str = str.replace(match, value)
 			}
 

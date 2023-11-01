@@ -16,7 +16,7 @@ export const outputFormatTextAreaFormat = (
 	type: ValuesFormatType
 ) => {
 	if (type === 'default') {
-		return data.split('\n')
+		return data.split('\n').filter(x => x)
 	}
 
 	return data

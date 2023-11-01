@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useEffect, useMemo } from 'react'
 import {
 	FormControl,
 	FormLabel,
@@ -133,18 +134,35 @@ export const RangeInput = () => {
 }
 export const TemplateInput = () => {
 	const [type, value] = useWatch({ name: ['templates.type', 'templates.data'] })
-	const formattedValue = outputFormatTextAreaFormat(
-		typeof value !== 'string' ? '' : value,
-		type
-	)
+	const values = useWatch()
+	const form = useFormContext()
 
-	const keys_ =
-		(formattedValue as string[])
-			?.map?.(x => x.match(/\${(.+?)}/g))
-			?.reduce((a, c) => [...a, ...(c || [])], [] as string[])
-			?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
+	const keys = useMemo(() => {
+		const formattedValue = outputFormatTextAreaFormat(
+			typeof value !== 'string' ? '' : value,
+			type
+		)
 
-	const keys = [...new Set(keys_)]
+		const keys_ =
+			(formattedValue as string[])
+				?.map?.(x => x.match(/\${(.+?)}/g))
+				?.reduce((a, c) => [...a, ...(c || [])], [] as string[])
+				?.map(x => x.replace(/\${(.+?)}/g, '$1')) || []
+
+		return [...new Set(keys_)]
+	}, [type, value])
+
+	useEffect(() => {
+		const deadKeys = Object.keys(values.keys || {}).filter(
+			x => !keys.includes(x)
+		)
+
+		if (deadKeys.length) {
+			deadKeys.forEach(x => {
+				form.unregister(`keys.${x}`)
+			})
+		}
+	}, [keys])
 
 	return (
 		<FormControl>

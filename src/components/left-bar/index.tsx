@@ -10,7 +10,7 @@ export const LeftBar = () => {
 			<SideBar />
 			<Card>
 				<CardBody>
-					<Stack spacing={2}>
+					<Stack spacing={4}>
 						<PagesComponent />
 
 						<FunctionsComponent />

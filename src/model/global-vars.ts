@@ -6,7 +6,7 @@ import { $template } from '.'
 import { changeGlobalVar } from './utils/change-data-helpers'
 
 const defaultGlobalVar: GlobalVarType = {
-	name: 'var',
+	name: 'new var',
 	id: new Date().getTime(),
 	values: { type: 'default', data: [] },
 }

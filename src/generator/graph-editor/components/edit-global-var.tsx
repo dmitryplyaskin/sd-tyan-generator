@@ -49,7 +49,7 @@ export const EditGlobalVar = () => {
 			},
 		})
 	}
-	console.log(data)
+
 	return (
 		<Drawer
 			isOpen={isOpen}

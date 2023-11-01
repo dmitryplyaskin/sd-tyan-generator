@@ -5,6 +5,7 @@ import {
 	deletePage,
 	duplicatePage,
 	openPage,
+	savePage,
 } from './pages'
 import { AllNodeType, NodeNameType, NodesType, PageType } from './types'
 import persist from 'effector-localstorage'
@@ -26,7 +27,9 @@ import {
 } from './utils/change-data-helpers'
 import { connectionEdgesHandler } from './utils/edge-connection'
 import { sample } from 'effector'
-import { generatePrompts } from '../generator/graph-editor/components/generate-prompts'
+import { generatePrompts } from './utils/generate-prompts'
+import { debounce } from 'patronum'
+import { $globalVars } from './global-vars'
 
 const DEFAULT_NODES: NodesType = [
 	{
@@ -56,6 +59,7 @@ export const $currentNodes = $nodeEditor.map(x => x.nodes)
 export const onNodesChange = createEvent<NodeChange[]>()
 export const onNodeAdd = createEvent<AllNodeType>()
 export const onNodeDataChange = createEvent<AllNodeType>()
+
 export const onNodeDisableBranches = createEvent<{
 	id: string
 	disabled: string
@@ -115,8 +119,20 @@ export const $generateResult = createStore('')
 export const generate = createEvent<{ count: number }>()
 
 sample({
-	source: $nodeEditor,
+	source: { nodeEditor: $nodeEditor, globalVars: $globalVars },
 	clock: generate,
 	fn: generatePrompts,
 	target: $generateResult,
 })
+
+const saveCurrentChanges = createEvent<PageType | null>()
+const debounced = debounce({
+	source: saveCurrentChanges,
+	timeout: 500,
+})
+
+sample({
+	clock: $currentPage,
+	target: saveCurrentChanges,
+})
+sample({ clock: debounced, target: savePage })

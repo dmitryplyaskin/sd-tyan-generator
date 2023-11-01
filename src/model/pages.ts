@@ -1,11 +1,13 @@
 import { createEvent, createStore, sample } from 'effector'
 import { NodeNameType, PageType, StartNodeType } from './types'
 import persist from 'effector-localstorage'
+import { debounce } from 'patronum'
 import {
 	$template,
 	clearTemplate,
 	initTemplate,
 	loadTemplate,
+	updatePages,
 } from './template'
 
 const StartNode: StartNodeType = {
@@ -28,6 +30,7 @@ sample({
 export const createPage = createEvent()
 export const updatePage = createEvent<PageType>()
 export const deletePage = createEvent<PageType>()
+export const savePage = createEvent<PageType | null>()
 export const duplicatePage = createEvent<PageType>()
 
 $pages
@@ -48,6 +51,9 @@ $pages
 		{ ...page, name: page.name + '-duplicate', id: new Date().getTime() },
 		...state,
 	])
+	.on(savePage, (state, page) =>
+		page ? state.map(x => (x.id === page.id ? page : x)) : state
+	)
 
 export const $activePages = createStore<PageType[]>([])
 export const openPage = createEvent<PageType>()
@@ -61,3 +67,15 @@ $activePages
 
 persist({ store: $pages, key: 'pages' })
 persist({ store: $activePages, key: 'activePages' })
+
+const saveCurrentPages = createEvent<PageType[]>()
+const debounced = debounce({
+	source: saveCurrentPages,
+	timeout: 500,
+})
+
+sample({
+	clock: $pages,
+	target: saveCurrentPages,
+})
+sample({ clock: debounced, target: updatePages })
