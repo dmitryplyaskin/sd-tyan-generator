@@ -18,6 +18,7 @@ const StartNode: StartNodeType = {
 }
 
 export const $pages = createStore<PageType[]>([])
+
 sample({
 	source: $template,
 	clock: [initTemplate, loadTemplate, clearTemplate],
@@ -98,6 +99,11 @@ sample({
 	clock: $pages,
 	target: saveCurrentPages,
 })
-sample({ clock: debounced, target: updatePages })
+sample({
+	source: $pages,
+	clock: [debounced, saveEditPage],
+	fn: state => state,
+	target: updatePages,
+})
 
 persist({ store: $activePages, key: 'activePages' })

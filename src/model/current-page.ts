@@ -5,6 +5,7 @@ import {
 	deletePage,
 	duplicatePage,
 	openPage,
+	saveEditPage,
 	savePage,
 } from './pages'
 import { AllNodeType, NodeNameType, NodesType, PageType } from './types'
@@ -44,6 +45,7 @@ export const $currentPage = createStore<PageType | null>(null)
 
 $currentPage
 	.on([openPage, createPage, duplicatePage], (_, page) => page)
+	.on(saveEditPage, (state, page) => (state?.id === page.id ? page : state))
 	.on([closePage, deletePage], (state, page) =>
 		state?.id === page.id ? null : state
 	)
@@ -132,7 +134,9 @@ const debounced = debounce({
 })
 
 sample({
+	source: $currentPage,
 	clock: $currentPage,
+	fn: state => state,
 	target: saveCurrentChanges,
 })
 sample({ clock: debounced, target: savePage })
