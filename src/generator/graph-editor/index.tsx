@@ -72,7 +72,7 @@ export const GraphEditor = () => {
 		},
 		[reactFlowInstance]
 	)
-
+	
 	const onNodeContextMenu = useCallback<NodeMouseHandler>(
 		(event, node) => {
 			event.preventDefault()

@@ -70,7 +70,7 @@ export const OptionalChanceInput = () => {
 	return (
 		<FormControl>
 			<FormLabel>
-				Случайный параметр (шанс с которым парметр попадет в генерацию)
+				Random parameter (the chance with which the parameter will be generated)
 			</FormLabel>
 			<Checkbox size="lg" {...register('optional.isOptional')} sx={{ mb: 8 }}>
 				Enable
@@ -104,9 +104,9 @@ export const RangeInput = () => {
 
 	return (
 		<FormControl>
-			<FormLabel>Выбрать несколько случайных значений (от и до)</FormLabel>
+			<FormLabel>Select several random values (from and to)</FormLabel>
 			<Checkbox size="lg" {...register('range.isRange')} sx={{ mb: 8 }}>
-				Включить
+				Enable
 			</Checkbox>
 			<Controller
 				name="range.value"

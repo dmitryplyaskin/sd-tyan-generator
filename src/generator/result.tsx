@@ -27,7 +27,7 @@ export const Result = () => {
 			<Card>
 				<CardBody>
 					<Stack spacing="4">
-						<Heading size="md">Результат генерации</Heading>
+						<Heading size="md">Result</Heading>
 						<Textarea value={value} h={'400px'} />
 						<ButtonGroup spacing="2">
 							<Button
@@ -35,10 +35,10 @@ export const Result = () => {
 								colorScheme="blue"
 								onClick={() => generate({ count: Number(count) })}
 							>
-								Сгенерировать
+								Generate
 							</Button>
 							<Button variant="outline" colorScheme="blue" onClick={handleCopy}>
-								Скопировать
+								Copy
 							</Button>
 						</ButtonGroup>
 					</Stack>
@@ -47,9 +47,9 @@ export const Result = () => {
 			<Card>
 				<CardBody>
 					<Stack spacing="4">
-						<Heading size="md">Настройки</Heading>
+						<Heading size="md">Settings</Heading>
 						<FormControl>
-							<FormLabel>Колличество генераций</FormLabel>
+							<FormLabel>Generation count:</FormLabel>
 							<Input
 								type="number"
 								value={count}

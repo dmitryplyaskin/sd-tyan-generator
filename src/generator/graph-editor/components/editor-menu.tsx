@@ -70,25 +70,25 @@ export const EditorMenu = () => {
 				<Input type="file" hidden id="fileUpload" onChange={handleFileChange} />
 				<Menu>
 					<MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-						Действия
+						Actions
 					</MenuButton>
 					<MenuList>
 						<MenuItem
 							onClick={() => document.getElementById('fileUpload')?.click()}
 						>
-							Загрузить
+							Load
 						</MenuItem>
-						<MenuItem onClick={() => saveDataAsJSONFile()}>Скачать</MenuItem>
+						<MenuItem onClick={() => saveDataAsJSONFile()}>Donwload</MenuItem>
 						{/* <MenuItem onClick={() => duplicateTemplate()}>Дублировать</MenuItem> */}
 						<MenuDivider />
 						<MenuItem color="red" onClick={() => openAlert('delete-edges')}>
-							Удалить связи
+							Delete edges
 						</MenuItem>
 						<MenuItem
 							color="red"
 							onClick={() => openAlert('delete-nodes-and-edges')}
 						>
-							Удалить ноды и связи
+							Delete nodes and edges
 						</MenuItem>
 						{/* <MenuItem color="red" onClick={() => openAlert('delete-templates')}>
 							Удалить все теплейты

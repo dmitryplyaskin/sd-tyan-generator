@@ -98,7 +98,7 @@ export const EditNode = () => {
 				<FormProvider {...methods}>
 					<DrawerCloseButton />
 
-					<DrawerHeader>Настройки {currentNode?.data.name}</DrawerHeader>
+					<DrawerHeader>Settings {currentNode?.data.name}</DrawerHeader>
 
 					<DrawerBody>
 						<Stack spacing="4">
@@ -116,13 +116,13 @@ export const EditNode = () => {
 
 					<DrawerFooter>
 						<Button variant="outline" mr={3} onClick={() => closeEditNode()}>
-							Отменить
+							Cancel
 						</Button>
 						<Button
 							colorScheme="blue"
 							onClick={methods.handleSubmit(handleSubmit)}
 						>
-							Сохранить
+							Save
 						</Button>
 					</DrawerFooter>
 				</FormProvider>
