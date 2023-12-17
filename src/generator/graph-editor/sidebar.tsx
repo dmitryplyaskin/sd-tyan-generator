@@ -12,7 +12,7 @@ export const SideBar = () => {
 		<Card>
 			<CardBody>
 				<Stack spacing={2}>
-					<Heading size="sm">Выберите ноду и перетащите ее</Heading>
+					<Heading size="sm">Select a node and drag and drop it</Heading>
 					<Node
 						title={'Simple Node'}
 						onDragStart={event => onDragStart(event, 'SimpleNode')}

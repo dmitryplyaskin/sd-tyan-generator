@@ -81,7 +81,7 @@ $editPage
 		isOpen: true,
 		data,
 	}))
-	.on(saveEditPage, state => ({
+	.on([saveEditPage, closeEditPage], state => ({
 		...state,
 		isOpen: false,
 	}))
